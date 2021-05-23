@@ -55,6 +55,43 @@ const OwnerPropView = ({props, navigation, route}) => {
 
   const ItemView = ({item}) => {
     const img = item.images.url;
+    const editPlace = (id) => {
+      try {
+        fetch(`${configdata.baseURL}/properties/updateproperty/${a}`, {
+          method: "PUT",
+        })
+          .then(response => response.json())
+          .then(responseJson => {
+            console.log('responseJson.success');
+            if (responseJson.success) {
+              navigation.pop();;
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      } catch (error) {}
+      
+    };
+    const deletePlace = id => {
+      const a = id;
+      console.log(a);
+      try {
+        fetch(`${configdata.baseURL}/properties/deleteproperty/${a}`, {
+          method: "DELETE",
+        })
+          .then(response => response.json())
+          .then(responseJson => {
+            console.log('responseJson.success');
+            if (responseJson.success) {
+              Alert.alert('Deleted data successfully.');
+            }
+          })
+          .catch(error => {
+            console.error(error);
+          });
+      } catch (error) {}
+    };
     return (
       // Flat List Item
       <View style={styles.card}>
@@ -73,10 +110,16 @@ const OwnerPropView = ({props, navigation, route}) => {
         <View style={styles.cardFooter}>
           <View style={styles.socialBarContainer}>
             <View style={styles.socialBarSection}>
-              <Text style={styles.socialBarLabel}>Edit</Text>
+              <Text style={styles.socialBarLabel}>
+                <Icon name="pencil" size={25} color="#202020" /> Edit
+              </Text>
             </View>
             <View style={styles.socialBarSection}>
-              <Text style={styles.socialBarLabel}>Delete</Text>
+              <Text
+                style={styles.socialBarLabel}
+                onPress={() => deletePlace(item._id)}>
+                <Icon name="delete" size={25} color="#202020" /> Delete
+              </Text>
             </View>
           </View>
         </View>
@@ -89,7 +132,7 @@ const OwnerPropView = ({props, navigation, route}) => {
       // Flat List Item Separator
       <View
         style={{
-          height: 0.5,
+          height: 0.9,
           width: '100%',
           backgroundColor: '#C8C8C8',
         }}
@@ -97,39 +140,36 @@ const OwnerPropView = ({props, navigation, route}) => {
     );
   };
 
-  const addPlace = () => {
-    navigation.pop();
-  };
-
   return (
     <>
-    <Loader loading={loading}/>
-    <SafeAreaView style={{flex: 1}}>
-      <View style={styles.container}>
-        <TouchableOpacity style={styles.buttonContainer}>
-          <Text style={styles.btntxt} onPress={() => addPlace()}>
-            <Icon name="plus" size={30} color="#00f" />
-            Add new place
-          </Text>
-        </TouchableOpacity>
-      </View>
-      <View
-        style={{
-          borderBottomColor: '#323232',
-          borderBottomWidth: 1,
-        }}
-      />
-      <Text>Previous Add-ons</Text>
-      <View style={styles.container}>
-        <FlatList
-          data={propty}
-          keyExtractor={(item, index) => index}
-          ItemSeparatorComponent={ItemSeparatorView}
-          enableEmptySections={false}
-          renderItem={ItemView}
+      <Loader loading={loading} />
+      <SafeAreaView style={{flex: 1}}>
+        <View style={styles.container}>
+          <TouchableOpacity style={styles.buttonContainer}>
+            <Text style={styles.btntxt} onPress={() => addPlace()}>
+              <Icon name="plus" size={30} color="#00f" />
+              Add new place
+            </Text>
+          </TouchableOpacity>
+        </View>
+        <View
+          style={{
+            borderBottomColor: '#323232',
+            borderBottomWidth: 1,
+          }}
         />
-      </View>
-    </SafeAreaView></>
+        <Text style={styles.btntxt}>{'  '}Previous ones</Text>
+        <View style={{flex: 1, paddingBottom: 1}}>
+          <FlatList
+            data={propty}
+            keyExtractor={(item, index) => index}
+            ItemSeparatorComponent={ItemSeparatorView}
+            enableEmptySections={false}
+            renderItem={ItemView}
+          />
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 
@@ -146,8 +186,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   cardHeader: {
-    paddingVertical: 17,
-    paddingHorizontal: 16,
+    paddingVertical: 5,
+    paddingHorizontal: 5,
     borderTopLeftRadius: 1,
     borderTopRightRadius: 1,
     flexDirection: 'row',
@@ -220,6 +260,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  container: {
+    padding: 10,
+  },
+  btntxt: {
+    fontSize: 30,
   },
 });
 export default {component: OwnerPropView, name: 'OwnerPropView'};

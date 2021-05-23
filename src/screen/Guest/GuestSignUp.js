@@ -18,7 +18,6 @@ import {Button, Dialog, Portal} from 'react-native-paper';
 import isEmpty from 'validator/lib/isEmpty';
 import isEmail from 'validator/lib/isEmail';
 import equals from 'validator/lib/equals';
-import showLoading from '../../helpers/loading';
 import configdata from '../../config/config';
 import Loader from '../../components/Loader';
 

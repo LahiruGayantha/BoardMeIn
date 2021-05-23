@@ -1,6 +1,6 @@
 import React from 'react';
 import {StyleSheet, View, Modal, ActivityIndicator} from 'react-native';
-
+import  Spinner from 'react-native-spinkit'
 const Loader = (props) => {
   const {loading, ...attributes} = props;
 
@@ -14,12 +14,7 @@ const Loader = (props) => {
       }}>
       <View style={styles.modalBackground}>
         <View style={styles.activityIndicatorWrapper}>
-          <ActivityIndicator
-            animating={true}
-            color="#000000"
-            size="large"
-            style={styles.activityIndicator}
-          />
+          <Spinner style={styles.spinner} isVisible={true} size={80} type='FadingCircleAlt' color='#51e2f5'/>
         </View>
       </View>
     </Modal>
@@ -37,7 +32,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#00000040',
   },
   activityIndicatorWrapper: {
-    backgroundColor: '#FFFFFF',
     height: 100,
     width: 100,
     borderRadius: 10,

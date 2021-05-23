@@ -6,6 +6,7 @@ const {
   getProductsById,
   getProductsByOId,
   updateProduct,
+  deleteProducts,
   getProducts,
   getSinglerooms,
   getSharedrooms,
@@ -19,7 +20,7 @@ const {
 
 router.post('/addproperty', addProduct);
 router.put('/updateproperty/:id', updateProduct);
-router.delete('/deleteproperty/:id', addProduct);
+router.delete('/deleteproperty/:id', deleteProducts);
 router.get('/property/:id', getProductsById);
 router.get('/ownerproperty/:id', getProductsByOId);
 router.get('/properties', getProducts);
