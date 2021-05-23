@@ -17,7 +17,6 @@ import {
 import {validate} from 'validate.js';
 import configdata from '../../config/config';
 import Loader from '../../components/Loader';
-import DisplayCategory from '../propertyDisplay/DisplayCategory';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');

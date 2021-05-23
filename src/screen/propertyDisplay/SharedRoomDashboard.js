@@ -12,16 +12,18 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 
 import configdata from '../../config/config';
-
 import Moredetail from './Moredetail';
 
 const SharedRoomDashboard = ({props, navigation}) => {
   const behavior = Platform.OS === 'ios' ? 'padding' : undefined;
 
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
   const [data, setData] = useState([]);
+  const [filterdata, setFilterdata] = useState([]);
 
   useEffect(() => getData(), []);
 
@@ -29,28 +31,53 @@ const SharedRoomDashboard = ({props, navigation}) => {
     const abortController = new AbortController();
     const signal = AbortController.signal;
 
-    console.log('getData');
     setLoading(true);
-    fetch(`${configdata.baseURL}/sharedrooms`, {signal: signal})
+    fetch(`${configdata.baseURL}/properties/sharedrooms`, {signal: signal})
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson.propertys);
-        setData(responseJson.propertys);
-        setLoading(false);
+        console.log(responseJson.products);
+        setData(responseJson.products);
+        setFilterdata(responseJson.products)
+        setLoading(false);        
       })
       .catch(error => {
         console.error(error);
       });
+
     return function cleanup() {
       abortController.abort();
-    };
+    }; 
   };
 
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource and update FilteredDataSource
+      const newData = data.filter(function (item) {
+        // Applying filter for the inserted text in search bar
+        const itemData = item.location
+          ? item.location.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;c
+      });
+      setFilterdata(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilterdata(data);
+      setSearch(text);
+    }
+  };
+  
   const ItemView = ({item}) => {
+    const img = item.images.url;
     return (
       // Flat List Item
       <View style={styles.card}>
-        <Image style={styles.cardImage} source={item.pimg}/>
+        <Image style={styles.cardImage} source={{uri: img}} />
         <View style={styles.cardHeader}>
           <View>
             <Text style={styles.description}>{item.location}</Text>
@@ -98,23 +125,32 @@ const SharedRoomDashboard = ({props, navigation}) => {
   const moreDetail = item => {
     //Function for click on an item
     navigation.navigate('Moredetail', {
-      type: item.ptype,
+      type: item.category,
       price: item.price,
       location: item.location,
-      discription: item.discription,
+      description: item.description,
+      pimg: item.images.url,
     });
   };
 
   const book = () => {
     //Function for click on an item
-    //navigation.navigate('Dashboard');
+    navigation.pop();
   };
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
+      <SearchBar
+          round
+          searchIcon={{ size: 24 }}
+          onChangeText={(text) => searchFilterFunction(text)}
+          onClear={(text) => searchFilterFunction('')}
+          placeholder="Find by location"
+          value={search}
+        />
         <FlatList
-          data={data}
+          data={filterdata}
           keyExtractor={(item, index) => index}
           ItemSeparatorComponent={ItemSeparatorView}
           enableEmptySections={true}
@@ -172,7 +208,7 @@ const styles = StyleSheet.create({
   },
   cardImage: {
     flex: 1,
-    height: 150,
+    height: 200,
     width: null,
   },
 

@@ -12,6 +12,7 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
+import { SearchBar } from 'react-native-elements';
 
 import configdata from '../../config/config';
 
@@ -21,7 +22,9 @@ const HouseDashboard = ({props, navigation}) => {
   const behavior = Platform.OS === 'ios' ? 'padding' : undefined;
 
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState('');
   const [data, setData] = useState([]);
+  const [filterdata, setFilterdata] = useState([]);
 
   useEffect(() => getData(), []);
 
@@ -33,10 +36,11 @@ const HouseDashboard = ({props, navigation}) => {
     setLoading(true);
     fetch(`${configdata.baseURL}/properties/houses`, {signal: signal})
       .then(response => response.json())
-      .then(responseJson => {
-        console.log(responseJson.propertys);
-        setData(responseJson.propertys);
-        setLoading(false);
+     .then(responseJson => {
+        console.log(responseJson.products);
+        setData(responseJson.products);
+        setFilterdata(responseJson.products)
+        setLoading(false);        
       })
       .catch(error => {
         console.error(error);
@@ -44,6 +48,29 @@ const HouseDashboard = ({props, navigation}) => {
     return function cleanup() {
       abortController.abort();
     };
+  };
+
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource and update FilteredDataSource
+      const newData = data.filter(function (item) {
+        // Applying filter for the inserted text in search bar
+        const itemData = item.location
+          ? item.location.toUpperCase()
+          : ''.toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;c
+      });
+      setFilterdata(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilterdata(data);
+      setSearch(text);
+    }
   };
 
   const ItemView = ({item}) => {
@@ -113,8 +140,16 @@ const HouseDashboard = ({props, navigation}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
+        <SearchBar
+          round
+          searchIcon={{ size: 24 }}
+          onChangeText={(text) => searchFilterFunction(text)}
+          onClear={(text) => searchFilterFunction('')}
+          placeholder="Find by location"
+          value={search}
+        />
         <FlatList
-          data={data}
+          data={filterdata}
           keyExtractor={(item, index) => index}
           ItemSeparatorComponent={ItemSeparatorView}
           enableEmptySections={true}

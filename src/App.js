@@ -22,12 +22,12 @@ import {
   GEditProfile,
   GuestProfile,
 } from './screen/Guest/GIndex';
-import DisplayCategory from './screen/propertyDisplay/DisplayCategory';
-import SingleRoomDashboard from './screen/propertyDisplay/SingleRoomDashboard';
-import SharedRoomDashboard from './screen/propertyDisplay/SharedRoomDashboard';
-import AnnexDashboard from './screen/propertyDisplay/AnnexDashboard';
-import HouseDashboard from './screen/propertyDisplay/HouseDashboard';
-import Moredetail from './screen/propertyDisplay/Moredetail';
+import DisplayCategory from './screen/PropertyDisplay/DisplayCategory';
+import SingleRoomDashboard from './screen/PropertyDisplay/SingleRoomDashboard';
+import SharedRoomDashboard from './screen/PropertyDisplay/SharedRoomDashboard';
+import AnnexDashboard from './screen/PropertyDisplay/AnnexDashboard';
+import HouseDashboard from './screen/PropertyDisplay/HouseDashboard';
+import Moredetail from './screen/PropertyDisplay/Moredetail';
 import GoogleMap from './screen/GoogleMap/GoogleMap';
 
 import LoadingScreen from './screen/LoadingScreen';

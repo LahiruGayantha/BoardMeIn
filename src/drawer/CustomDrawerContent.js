@@ -12,6 +12,8 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+const logo = require('../../assest/images/logo.jpg');
+
 const CustomDrawerContent = props => {
   const onItemPress = key => {
     const filteredMainDrawerRoutes = props.drawerItems.find(e => {
@@ -71,7 +73,7 @@ const CustomDrawerContent = props => {
         forceInset={{top: 'always', horizontal: 'never'}}>
         <View style={styles.centered}>
           <Image
-            source={{uri: 'https://reactjs.org/logo-og.png'}}
+            source={logo}
             style={styles.logo}
           />
         </View>
@@ -91,7 +93,8 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 100,
-    height: 75,
+    height: 100,
+    borderRadius: 50
   },
   drawerContainer: {
     backgroundColor: '#323032',

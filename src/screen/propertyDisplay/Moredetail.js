@@ -10,22 +10,25 @@ import {
 } from 'react-native';
 import Stars from 'react-native-stars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 
-const Sampleimg = require('../../../assest/images/SingleRoomsample.jpg');
 
 const Moredetail = ({route, navigation}) => {
+  const pid = route.params.pid;
   const price = route.params.price;
   const type = route.params.type;
   const location = route.params.location;
   const discription = route.params.description;
   const img = route.params.pimg;
+  AsyncStorage.setItem('pid', pid);
+
   return (
     <ScrollView>
       <View style={styles.container}>
         <View style={{alignItems: 'center', marginHorizontal: 30}}>
-          <Image style={styles.productImg} source={{uri: img}}/>
+          <Image style={styles.productImg} source={{uri: img}} />
           <Text style={styles.name}>{type}</Text>
           <Text style={styles.price}>
             {'Rs. '}
@@ -46,20 +49,39 @@ const Moredetail = ({route, navigation}) => {
         </View>
         <TouchableOpacity
           style={[styles.Button, styles.btnclr1]}
-          onPress={() => navigation.navigate('GProfile',{screen:'GuestProfile'})}>
-          <Text style={styles.ButtonText}>Contact Owner{' '}<Icon name="chat" size={25} color='#fff'/></Text>
+          onPress={() =>
+            navigation.navigate('GProfile', {screen: 'GuestProfile'})
+          }>
+          <Text style={styles.ButtonText}>
+            Contact Owner <Icon name="chat" size={25} color="#fff" />
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.Button, styles.btnclr2]} >
-          <Text style={styles.ButtonText}>Book Now{' '}<Icon name="check-outline" size={25} color='#fff'/></Text>
+        <TouchableOpacity style={[styles.Button, styles.btnclr2]}>
+          <Text style={styles.ButtonText}>
+            Book Now <Icon name="check-outline" size={25} color="#fff" />
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.Button, styles.btnclr3]}>
-          <Text style={styles.ButtonText}>Comment & Review{' '}<Icon name="comment-edit-outline" size={25} color='#fff'/></Text>
+          <Text style={styles.ButtonText}>
+            Comment & Review{' '}
+            <Icon name="comment-edit-outline" size={25} color="#fff" />
+          </Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.Button, styles.btnclr4]}>
-          <Text style={styles.ButtonText}>Complains{' '}<Icon name="emoticon-neutral-outline" size={25} color='#fff'/></Text>
+          <Text style={styles.ButtonText}>
+            Report to Admin{' '}
+            <Icon name="emoticon-neutral-outline" size={25} color="#fff" />
+          </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={[styles.Button, styles.btnclr5]} onPress={()=> navigation.navigate('Property',{screen:'GoogleMap'})}>
-          <Text style={styles.ButtonText}>View Location{' '}<Icon name="map-marker-radius-outline" size={25} color='#fff'/></Text>
+        <TouchableOpacity
+          style={[styles.Button, styles.btnclr5]}
+          onPress={() =>
+            navigation.navigate('Property', {screen: 'GoogleMap'})
+          }>
+          <Text style={styles.ButtonText}>
+            View Location{' '}
+            <Icon name="map-marker-radius-outline" size={25} color="#fff" />
+          </Text>
         </TouchableOpacity>
       </View>
     </ScrollView>
@@ -76,7 +98,7 @@ const styles = StyleSheet.create({
     paddingBottom: heightScreen * 0.01,
   },
   productImg: {
-    width: widthScreen*0.9,
+    width: widthScreen * 0.9,
     height: 200,
   },
   name: {
@@ -109,19 +131,19 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: heightScreen * 0.007,
   },
-  btnclr1:{
+  btnclr1: {
     backgroundColor: '#51e2f5',
   },
-  btnclr2:{
+  btnclr2: {
     backgroundColor: '#0028c9',
   },
-  btnclr3:{
+  btnclr3: {
     backgroundColor: '#bd00de',
   },
-  btnclr4:{
+  btnclr4: {
     backgroundColor: '#059100',
   },
-  btnclr5:{
+  btnclr5: {
     backgroundColor: '#db9a00',
   },
   starContainer: {
