@@ -22,7 +22,7 @@ const logo = require('../../../assest/images/logo.jpg');
 const AddFeedback = ({navigation}) => {
   return (
     <ScrollView style={styles.container}>
-      
+      <Text>Comment</Text>
     </ScrollView>
   );
 };

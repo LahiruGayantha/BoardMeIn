@@ -35,7 +35,7 @@ const SingleRoomDashboard = ({props, navigation}) => {
     fetch(`${configdata.baseURL}/properties/singlerooms`, {signal: signal})
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson.products);
+        //console.log(responseJson.products);
         setData(responseJson.products);
         setFilterdata(responseJson.products)
         setLoading(false);        
@@ -51,23 +51,17 @@ const SingleRoomDashboard = ({props, navigation}) => {
   };
 
     const searchFilterFunction = (text) => {
-    // Check if searched text is not blank
     if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource and update FilteredDataSource
       const newData = data.filter(function (item) {
-        // Applying filter for the inserted text in search bar
         const itemData = item.location
           ? item.location.toUpperCase()
           : ''.toUpperCase();
         const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;c
+        return itemData.indexOf(textData) > -1;
       });
       setFilterdata(newData);
       setSearch(text);
     } else {
-      // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
       setFilterdata(data);
       setSearch(text);
     }
@@ -76,7 +70,6 @@ const SingleRoomDashboard = ({props, navigation}) => {
   const ItemView = ({item}) => {
     const img = item.images.url;
     return (
-      // Flat List Item
       <View style={styles.card}>
         <Image style={styles.cardImage} source={{uri: img}} />
         <View style={styles.cardHeader}>
@@ -132,6 +125,7 @@ const SingleRoomDashboard = ({props, navigation}) => {
       location: item.location,
       description: item.description,
       pimg: item.images.url,
+      address:item.address,
     });
   };
 

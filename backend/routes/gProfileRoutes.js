@@ -10,7 +10,7 @@ const {
   updatePassword,
 } = require('../controllers/guestProfile');
 
-router.get("/profile", getGuestById);
+router.get("/:id", getGuestById);
 router.put("/updatepic", updateGuestPic);
 router.put("/username", updateGuestUName);
 router.put("/bio",updateGuestBio);

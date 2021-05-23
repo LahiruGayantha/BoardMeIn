@@ -9,8 +9,11 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 
+import LoadingScreen from './screen/LoadingScreen';
+import SplashScreen from './screen/SplashScreen';
 import LandingScreen from './screen/LandingScreen';
 import LogScreen from './screen/LogScreen';
+
 import OwnerSignIn from './screen/Owner/OwnerSignIn';
 import OwnerSignUp from './screen/Owner/OwnerSignUp';
 import OwnerProfile from './screen/Owner/OwnerProfile';
@@ -22,16 +25,21 @@ import {
   GEditProfile,
   GuestProfile,
 } from './screen/Guest/GIndex';
+
 import DisplayCategory from './screen/PropertyDisplay/DisplayCategory';
 import SingleRoomDashboard from './screen/PropertyDisplay/SingleRoomDashboard';
 import SharedRoomDashboard from './screen/PropertyDisplay/SharedRoomDashboard';
 import AnnexDashboard from './screen/PropertyDisplay/AnnexDashboard';
 import HouseDashboard from './screen/PropertyDisplay/HouseDashboard';
 import Moredetail from './screen/PropertyDisplay/Moredetail';
+
 import GoogleMap from './screen/GoogleMap/GoogleMap';
 
-import LoadingScreen from './screen/LoadingScreen';
-import SplashScreen from './screen/SplashScreen';
+import Book from './screen/Booking/Book';
+
+import Chat from './screen/Chat/ChatUI';
+
+import AddComment from './screen/Feedback/AddComment'
 
 import {drawerItemsMain} from './drawer/DrawerItemsMain';
 import CustomDrawerContent from './drawer/CustomDrawerContent.js';
@@ -41,6 +49,8 @@ const Stack = createStackNavigator();
 const HStack = createStackNavigator();
 const GPStack = createStackNavigator();
 const PropStack = createStackNavigator();
+const CStack = createStackNavigator();
+const IStack = createStackNavigator();
 const Drawer = createDrawerNavigator();
 
 //===============
@@ -116,11 +126,25 @@ const Property = ({navigation}) => {
         name={HouseDashboard.name}
         component={HouseDashboard.component}
       />
-      <PropStack.Screen
-        name={GoogleMap.name}
-        component={GoogleMap.component}
-      />
+      <PropStack.Screen name={GoogleMap.name} component={GoogleMap.component} />
+      <PropStack.Screen name={Book.name} component={Book.component} />
     </PropStack.Navigator>
+  );
+};
+
+const ChatA = () => {
+  return (
+    <CStack.Navigator >
+      <CStack.Screen name={Chat.name} component={Chat.component} />
+    </CStack.Navigator>
+  );
+};
+
+const Inquery = () => {
+  return (
+    <IStack.Navigator >
+      <IStack.Screen name={Chat.name} component={Chat.component} />
+    </IStack.Navigator>
   );
 };
 
@@ -137,7 +161,7 @@ const Guest = ({navigation}) => {
   );
 };
 
-const Owner = ({ navigation}) => {
+const Owner = () => {
   const logOut = async () => {
     console.log('log out');
     AsyncStorage.clear();
@@ -155,23 +179,18 @@ const Owner = ({ navigation}) => {
           fontWeight: 'bold',
         },
         headerRight: () => (
-          <Icon
-            name="power"
-            size={25}
-            color="#fff"
-            onPress={() => logOut()}
-          />
+          <Icon name="power" size={25} color="#fff" onPress={() => logOut()} />
         ),
       }}>
       <Stack.Screen
         name={OwnerProfile.name}
         component={OwnerProfile.component}
-        options={{title:"Owner Profile"}}
+        options={{title: 'Owner Profile'}}
       />
       <Stack.Screen
         name={OwnerPropView.name}
         component={OwnerPropView.component}
-        options={{title:"View places"}}
+        options={{title: 'View places'}}
       />
     </Stack.Navigator>
   );
@@ -227,6 +246,11 @@ const App = () => {
         <Stack.Screen
           name="Owner"
           component={Owner}
+          options={{headerShown: false}}
+        />
+        <Stack.Screen
+          name="ChatA"
+          component={ChatA}
           options={{headerShown: false}}
         />
       </Stack.Navigator>

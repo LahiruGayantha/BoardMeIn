@@ -114,7 +114,7 @@ exports.getProductsById = async (req, res) => {
 };
 
 exports.getProductsByOId = async (req, res) => {
-  await Products.findOne({owner_id: req.params.id}, (err, products) => {
+  await Products.find({owner_id: req.params.id}, (err, products) => {
     if (err) {
       return res.status(400).json({success: false, error: err});
     }

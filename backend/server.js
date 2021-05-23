@@ -3,7 +3,8 @@ const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
 const authRoutes = require('./routes/auth');
-const profileRoutes = require("./routes/gProfileRoutes");
+const gprofileRoutes = require("./routes/gProfileRoutes");
+const oprofileRoutes = require("./routes/oProfileRoutes");
 const propertyRoutes = require("./routes/pRoutes");
 const dotenv = require("dotenv");
 dotenv.config(); 
@@ -18,7 +19,8 @@ app.use(morgan('dev'));
 app.use(cookieParser())
 app.use(express.json());
 app.use('/api/auth', authRoutes);
-app.use("/api/profile", profileRoutes);
+app.use("/api/gprofile", gprofileRoutes);
+app.use("/api/oprofile", oprofileRoutes);
 app.use("/api/properties", propertyRoutes);
 app.use('/api', require('./routes/upload'))
 

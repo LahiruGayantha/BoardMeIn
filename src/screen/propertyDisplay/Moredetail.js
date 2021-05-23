@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   StyleSheet,
   Text,
@@ -11,9 +11,9 @@ import {
 import Stars from 'react-native-stars';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import configdata from '../../config/config';
 
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
-
 
 const Moredetail = ({route, navigation}) => {
   const pid = route.params.pid;
@@ -22,12 +22,44 @@ const Moredetail = ({route, navigation}) => {
   const location = route.params.location;
   const discription = route.params.description;
   const img = route.params.pimg;
-  AsyncStorage.setItem('pid', pid);
+  const address= route.params.address;
+  const [d, setD] = useState([]);
 
+  const setProduct = () => {
+    const abortController = new AbortController();
+    const signal = AbortController.signal;
+    fetch(`${configdata.baseURL}/properties/property/${pid}`, {signal: signal})
+      .then(response => response.json())
+      .then(responseJson => {
+        setD(responseJson.data);
+      })
+      .catch(error => {
+        console.error(error);
+      });
+
+    return function cleanup() {
+      abortController.abort();
+    };
+  };
+
+  useEffect(() => setProduct(), []);
+  const book = () => {
+    navigation.navigate('Property', {
+      screen: 'Book',
+      params: {
+        oid: d.owner_id,
+        img: d.images.url,
+        price: d.price,
+        type: d.category,
+        location: d.location,
+        address:d.address
+      },
+    });
+  };
   return (
     <ScrollView>
       <View style={styles.container}>
-        <View style={{alignItems: 'center', marginHorizontal: 30}}>
+        <View style={{alignItems: 'center', marginHorizontal: 10}}>
           <Image style={styles.productImg} source={{uri: img}} />
           <Text style={styles.name}>{type}</Text>
           <Text style={styles.price}>
@@ -35,6 +67,7 @@ const Moredetail = ({route, navigation}) => {
             {price}
           </Text>
           <Text style={styles.description}>{discription}</Text>
+          <Text style={styles.description}>{address}</Text>
         </View>
         <View style={styles.starContainer}>
           <Stars
@@ -49,15 +82,13 @@ const Moredetail = ({route, navigation}) => {
         </View>
         <TouchableOpacity
           style={[styles.Button, styles.btnclr1]}
-          onPress={() =>
-            navigation.navigate('GProfile', {screen: 'GuestProfile'})
-          }>
+          onPress={() => navigation.navigate('ChatA', {screen: 'Chat'})}>
           <Text style={styles.ButtonText}>
             Contact Owner <Icon name="chat" size={25} color="#fff" />
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.Button, styles.btnclr2]}>
-          <Text style={styles.ButtonText}>
+          <Text style={styles.ButtonText} onPress={() => book()}>
             Book Now <Icon name="check-outline" size={25} color="#fff" />
           </Text>
         </TouchableOpacity>
