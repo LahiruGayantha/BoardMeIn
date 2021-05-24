@@ -119,86 +119,89 @@ const GuestSignUp = ({props, navigation}) => {
   return (
     <>
       <Loader loading={loading} />
-      <ScrollView style={styles.container}>
-        <Image style={styles.logo} source={logo} />
-        <View style={styles.form}>
-          <StatusBar backgroundColor="#9df9ef" barStyle="light-content" />
-          <View>
-            <Text style={styles.headerTitle}>Guest Sign up</Text>
-            <View style={{marginTop: heightScreen * 0.021}} />
-          </View>
-          <KeyboardAvoidingView behavior={behavior}>
-            <Text style={styles.inputLabel}>First Name</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={firstname => setFirstname(firstname)}
-              autoCapitalize="none"
-              placeholderTextColor="#BFC9CA"
-            />
-            <View style={{marginTop: heightScreen * 0.011}} />
-            <Text style={styles.inputLabel}>Last Name</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={lastname => setLastname(lastname)}
-              autoCapitalize="none"
-              placeholderTextColor="#BFC9CA"
-            />
-            <View style={{marginTop: heightScreen * 0.011}} />
-            <Text style={styles.inputLabel}>Email</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={email => setEmail(email)}
-              autoCapitalize="none"
-              placeholderTextColor="#BFC9CA"
-            />
-            <View style={{marginTop: heightScreen * 0.011}} />
-            <Text style={styles.inputLabel}>Password</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={password => setPassword(password)}
-              autoCapitalize="none"
-              secureTextEntry={true}
-              placeholderTextColor="#BFC9CA"
-            />
-            <View style={{marginTop: heightScreen * 0.011}} />
-            <Text style={styles.inputLabel}>Conform Password</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={password2 => setPassword2(password2)}
-              autoCapitalize="none"
-              secureTextEntry={true}
-              placeholderTextColor="#BFC9CA"
-              onSubmitEditing={Keyboard.dismiss}
-            />
-          </KeyboardAvoidingView>
-          <View style={styles.termsBox}>
-            <Text style={styles.infoText}>
-              By continuing you agree to our{' '}
-              <Text style={[styles.infoText, styles.greenInfoText]}>
-                Terms of Service
-              </Text>{' '}
-              and{' '}
-              <Text style={[styles.infoText, styles.greenInfoText]}>
-                Privacy Policy
+      <View style={styles.container}>
+        <ScrollView>
+          <View style={styles.form}>
+            <Image style={styles.logo} source={logo} />
+            <View>
+              <Text style={styles.headerTitle}>Guest Sign up</Text>
+              <View style={{marginTop: heightScreen * 0.021}} />
+            </View>
+            <KeyboardAvoidingView behavior={behavior}>
+              <Text style={styles.inputLabel}>First Name</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={firstname => setFirstname(firstname)}
+                autoCapitalize="none"
+                placeholderTextColor="#BFC9CA"
+              />
+              <View style={{marginTop: heightScreen * 0.011}} />
+              <Text style={styles.inputLabel}>Last Name</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={lastname => setLastname(lastname)}
+                autoCapitalize="none"
+                placeholderTextColor="#BFC9CA"
+              />
+              <View style={{marginTop: heightScreen * 0.011}} />
+              <Text style={styles.inputLabel}>Email</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={email => setEmail(email)}
+                autoCapitalize="none"
+                placeholderTextColor="#BFC9CA"
+              />
+              <View style={{marginTop: heightScreen * 0.011}} />
+              <Text style={styles.inputLabel}>Password</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={password => setPassword(password)}
+                autoCapitalize="none"
+                secureTextEntry={true}
+                placeholderTextColor="#BFC9CA"
+              />
+              <View style={{marginTop: heightScreen * 0.011}} />
+              <Text style={styles.inputLabel}>Conform Password</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={password2 => setPassword2(password2)}
+                autoCapitalize="none"
+                secureTextEntry={true}
+                placeholderTextColor="#BFC9CA"
+                onSubmitEditing={Keyboard.dismiss}
+              />
+            </KeyboardAvoidingView>
+            <View style={styles.termsBox}>
+              <Text style={styles.infoText}>
+                By continuing you agree to our{' '}
+                <Text style={[styles.infoText, styles.greenInfoText]}>
+                  Terms of Service
+                </Text>{' '}
+                and{' '}
+                <Text style={[styles.infoText, styles.greenInfoText]}>
+                  Privacy Policy
+                </Text>
               </Text>
-            </Text>
-            <View style={{marginTop: heightScreen * 0.011}} />
-            <TouchableOpacity
-              style={styles.button}
-              onPress={() => handleSubmit()}>
-              <Text style={styles.buttonText}>Sign Up</Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.footer}>
-            <Text style={styles.infoText}>Already have an guest account? </Text>
-            <TouchableOpacity onPress={() => navigation.pop()}>
-              <Text style={[styles.infoText, styles.greenInfoText]}>
-                Sign in
+              <View style={{marginTop: heightScreen * 0.011}} />
+              <TouchableOpacity
+                style={styles.button}
+                onPress={() => handleSubmit()}>
+                <Text style={styles.buttonText}>Sign Up</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.footer}>
+              <Text style={styles.infoText}>
+                Already have an guest account?{' '}
               </Text>
-            </TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.pop()}>
+                <Text style={[styles.infoText, styles.greenInfoText]}>
+                  Sign in
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+      </View>
     </>
   );
 };
@@ -207,28 +210,22 @@ export default {component: GuestSignUp, name: 'GuestSignUp'};
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#adf',
-    padding:10,
+    paddingHorizontal: 10,
+    backgroundColor: '#4EB2E7',
   },
   logo: {
     alignSelf: 'center',
-    marginTop: heightScreen * 0.032,
-    marginBottom: heightScreen * 0.102,
+    marginTop: 10,
+    marginBottom: 20,
     borderRadius: 6,
     borderColor: '#000',
-    borderWidth: 0.5
-  },
-  background: {
-    position: 'absolute',
-    width: widthScreen,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    borderWidth: 0.5,
   },
   form: {
     paddingHorizontal: widthScreen * 0.06,
     borderRadius: 30,
-    backgroundColor:'#d9f9ef',
-    paddingVertical:30,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    marginVertical: 20,
   },
   inputLabel: {
     fontSize: 20,

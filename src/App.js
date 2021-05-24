@@ -153,7 +153,7 @@ const Guest = ({navigation}) => {
   );
 };
 
-const Owner = navigation => {
+const Owner = ({navigation}) => {
   const logOut = async () => {
     console.log('log out');
     AsyncStorage.clear();

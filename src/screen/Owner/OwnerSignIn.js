@@ -146,12 +146,11 @@ const OwnerSignIn = ({navigation}) => {
 const styles = StyleSheet.create({
   container: {
     paddingHorizontal: 10,
-    paddingVertical: heightScreen * 0.05,
   },
   container2: {
     backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    paddingBottom: 10,
     borderRadius: 30,
+    marginVertical: 50
   },
   image:{
     justifyContent: "center"

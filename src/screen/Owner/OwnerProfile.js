@@ -2,6 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Dimensions, SafeAreaView, Alert} from 'react-native';
 import Profile from '../../components/Profile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Loader from '../../components/Loader';
 
 import OwnerPropView from './OwnerPropView';
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
@@ -15,6 +16,7 @@ const OwnerProfile = ({navigation}) => {
     pic: '',
     bio: '',
   });
+  const [loading, setLoading] = useState(false);
 
   const viewProp = () => {
     navigation.navigate('OwnerPropView', {
@@ -23,10 +25,12 @@ const OwnerProfile = ({navigation}) => {
   };
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const jsonValue = await AsyncStorage.getItem('@ouser');
       const result = JSON.parse(jsonValue);
-      console.log(result.email)
+      console.log(result.email);
+      setLoading(false);
       setOUser({
         ...ouser,
         firstname: result.firstname,
@@ -43,23 +47,26 @@ const OwnerProfile = ({navigation}) => {
   };
   useEffect(() => fetchData(), []);
   return (
-    <SafeAreaView style={{flex: 1}}>
-    <View style={styles.container}>
-      <Profile
-        username={ouser.firstname + ' ' + ouser.lastname}
-        usermail={ouser.email}
-        owner="Owner"
-        btn2="View my rent places"
-        onPress1={() => navigation.pop()}
-        onPress2={() => viewProp()}
-        img={ouser.pic}
-        bio={ouser.bio}
-        location={ouser.location}
-        nav={() => Alert.alert('ok')}
-        iname="home-city"
-      />
-      </View>
-    </SafeAreaView>
+    <>
+      <Loader loading={loading} />
+      <SafeAreaView style={{flex: 1}}>
+        <View style={styles.container}>
+          <Profile
+            username={ouser.firstname + ' ' + ouser.lastname}
+            usermail={ouser.email}
+            owner="Owner"
+            btn2="View my rent places"
+            onPress1={() => navigation.pop()}
+            onPress2={() => viewProp()}
+            img={ouser.pic}
+            bio={ouser.bio}
+            location={ouser.location}
+            nav={() => Alert.alert('ok')}
+            iname="home-city"
+          />
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 //
@@ -67,10 +74,10 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     width: widthScreen,
+    height: heightScreen,
     alignItems: 'flex-start',
-    paddingHorizontal: widthScreen * 0.073,
-    paddingBottom: heightScreen * 0.057,
     paddingTop: heightScreen * 0.057,
+    backgroundColor: '#9EFEB4',
   },
 });
 

@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {View, StyleSheet, Dimensions, SafeAreaView} from 'react-native';
 import Profile from '../../components/Profile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import Loader from '../../components/Loader';
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 
 const GuestProfile = ({navigation}) => {
@@ -11,13 +11,19 @@ const GuestProfile = ({navigation}) => {
     lastname: '',
     email: '',
     _id: '',
+    pic:'',
+    location:'',
+    bio:''
   });
+  const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
+    setLoading(true);
     try {
       const jsonValue = await AsyncStorage.getItem('@guser');
       const result = JSON.parse(jsonValue);
       console.log(result);
+      setLoading(false);
       setGUser({
         ...guser,
         firstname: result.firstname,
@@ -34,20 +40,23 @@ const GuestProfile = ({navigation}) => {
   };
   useEffect(() => fetchData(), []);
   return (
-    <SafeAreaView style={{flex:1}}>
-      <View style={styles.container}>
-        <Profile
-          username={guser.firstname + ' ' + guser.lastname}
-          usermail={guser.email}
-          owner="Lodger"
-          btn2="View Bookings"
-          onPress1={() => navigation.pop()}
-          img={guser.pic}
-          bio={guser.bio}
-          location={guser.location}
-        />
-      </View>
-    </SafeAreaView>
+    <>
+      <Loader loading={loading} />
+      <SafeAreaView style={{flex: 1}}>
+        <View style={styles.container}>
+          <Profile
+            username={guser.firstname + ' ' + guser.lastname}
+            usermail={guser.email}
+            owner="Lodger"
+            btn2="View Bookings"
+            onPress1={() => navigation.pop()}
+            img={guser.pic}
+            bio={guser.bio}
+            location={guser.location}
+          />
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 

@@ -16,6 +16,7 @@ import sharedroom from '../../../assest/images/Sharedroom.jpg';
 import Apartments from '../../../assest/images/Apartment.jpg';
 import annex from '../../../assest/images/annex.jpg';
 import configdata from '../../config/config';
+import Loader from '../../components/Loader';
 
 import SingleRoomDashboard from './SingleRoomDashboard';
 import SharedRoomDashboard from './SharedRoomDashboard';
@@ -35,6 +36,7 @@ const DisplayCategory = ({navigation}) => {
   const signal = AbortController.signal;
 
   const getSinCount = () => {
+    setLoading(true);
     fetch(`${configdata.baseURL}/properties/sroom`, {signal: signal})
       .then(res => res.json())
       .then(responseJson => {
@@ -116,54 +118,57 @@ const DisplayCategory = ({navigation}) => {
   }, []);
 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <TouchableOpacity onPress={() => showSinglerooms()}>
-          <View style={styles.card}>
-            <Image style={styles.cardImage} source={SingleRoom} />
-            <View style={styles.cardContent}>
-              <View>
-                <Text style={styles.title}>Single Room</Text>
-                <Text style={styles.time}>{srcount}</Text>
+    <>
+      <Loader loading={loading} />
+      <ScrollView>
+        <View style={styles.container}>
+          <TouchableOpacity onPress={() => showSinglerooms()}>
+            <View style={styles.card}>
+              <Image style={styles.cardImage} source={SingleRoom} />
+              <View style={styles.cardContent}>
+                <View>
+                  <Text style={styles.title}>Single Room</Text>
+                  <Text style={styles.time}>{srcount}</Text>
+                </View>
               </View>
             </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => showSharedrooms()}>
-          <View style={styles.card}>
-            <Image style={styles.cardImage} source={sharedroom} />
-            <View style={styles.cardContent}>
-              <View>
-                <Text style={styles.title}>Shared Room</Text>
-                <Text style={styles.time}>{shcount}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => showSharedrooms()}>
+            <View style={styles.card}>
+              <Image style={styles.cardImage} source={sharedroom} />
+              <View style={styles.cardContent}>
+                <View>
+                  <Text style={styles.title}>Shared Room</Text>
+                  <Text style={styles.time}>{shcount}</Text>
+                </View>
               </View>
             </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => showAnnexes()}>
-          <View style={styles.card}>
-            <Image style={styles.cardImage} source={annex} />
-            <View style={styles.cardContent}>
-              <View>
-                <Text style={styles.title}>Annex</Text>
-                <Text style={styles.time}>{anxcount}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => showAnnexes()}>
+            <View style={styles.card}>
+              <Image style={styles.cardImage} source={annex} />
+              <View style={styles.cardContent}>
+                <View>
+                  <Text style={styles.title}>Annex</Text>
+                  <Text style={styles.time}>{anxcount}</Text>
+                </View>
               </View>
             </View>
-          </View>
-        </TouchableOpacity>
-        <TouchableOpacity onPress={() => showHouses()}>
-          <View style={styles.card}>
-            <Image style={styles.cardImage} source={Apartments} />
-            <View style={styles.cardContent}>
-              <View>
-                <Text style={styles.title}>Rent Houses</Text>
-                <Text style={styles.time}>{hmcount}</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => showHouses()}>
+            <View style={styles.card}>
+              <Image style={styles.cardImage} source={Apartments} />
+              <View style={styles.cardContent}>
+                <View>
+                  <Text style={styles.title}>Rent Houses</Text>
+                  <Text style={styles.time}>{hmcount}</Text>
+                </View>
               </View>
             </View>
-          </View>
-        </TouchableOpacity>
-      </View>
-    </ScrollView>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </>
   );
 };
 

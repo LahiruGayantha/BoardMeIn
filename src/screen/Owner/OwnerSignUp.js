@@ -121,9 +121,8 @@ const OwnerSignUp = ({props, navigation}) => {
     <>
       <Loader loading={loading} />
       <ScrollView style={styles.container}>
-        <Image style={styles.logo} source={logo} />
         <View style={styles.form}>
-          <StatusBar backgroundColor="#9df9ef" barStyle="light-content" />
+          <Image style={styles.logo} source={logo} />
           <View>
             <Text style={styles.headerTitle}>Owner Sign up</Text>
             <View style={{marginTop: heightScreen * 0.021}} />
@@ -192,8 +191,7 @@ const OwnerSignUp = ({props, navigation}) => {
           </View>
           <View style={styles.footer}>
             <Text style={styles.infoText}>Already have an owner account? </Text>
-            <TouchableOpacity
-              onPress={() => navigation.pop()}>
+            <TouchableOpacity onPress={() => navigation.pop()}>
               <Text style={[styles.infoText, styles.greenInfoText]}>
                 Sign in
               </Text>
@@ -209,25 +207,22 @@ export default {component: OwnerSignUp, name: 'OwnerSignUp'};
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#adf',
-    padding:10,
+    paddingHorizontal: 10,
+    backgroundColor: '#4EB2E7',
   },
   logo: {
     alignSelf: 'center',
-    marginTop: heightScreen * 0.032,
-    marginBottom: heightScreen * 0.102,
+    marginTop: 10,
+    marginBottom: 20,
     borderRadius: 6,
     borderColor: '#000',
-    borderWidth: 0.5
-  },
-  background: {
-    position: 'absolute',
-    width: widthScreen,
-    flexDirection: 'column',
-    justifyContent: 'space-between',
+    borderWidth: 0.5,
   },
   form: {
     paddingHorizontal: widthScreen * 0.06,
+    borderRadius: 30,
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    marginVertical: 20,
   },
   inputLabel: {
     fontSize: 20,

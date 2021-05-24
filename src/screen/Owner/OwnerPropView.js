@@ -274,7 +274,8 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   btntxt: {
-    fontSize: 30,
+    fontSize: 25,
+    color:'#000',
   },
 });
 export default {component: OwnerPropView, name: 'OwnerPropView'};
