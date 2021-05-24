@@ -13,11 +13,14 @@ import {
   KeyboardAvoidingView,
   RefreshControl,
   Keyboard,
+  ImageBackground
 } from 'react-native';
 import {validate} from 'validate.js';
 import configdata from '../../config/config';
 import Loader from '../../components/Loader';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
+const backgroundImage = require('../../../assest/images/Log-Background2.jpg');
 
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 const logo = require('../../../assest/images/logo.jpg');
@@ -70,7 +73,7 @@ const GuestSignIn = ({navigation}) => {
           storeData(responseJson.user);
           AsyncStorage.setItem('role', responseJson.user.role.toString());
           console.log(responseJson.user.email);
-          navigation.navigate('Property', { screen: 'DisplayCategory' });
+          navigation.navigate('Guest', { screen: 'Property' });
         } else {
           setErrorMsg(responseJson.errorMessage);
           console.log('Please check your email id or password');
@@ -83,62 +86,84 @@ const GuestSignIn = ({navigation}) => {
   };
 
   return (
-    <ScrollView style={styles.container}>
-      <Image style={styles.logo} source={logo} />
-      <View style={styles.form}>
-        <StatusBar backgroundColor="#9df9ef" barStyle="light-content" />
-        <View>
-          <Text style={styles.headerTitle}>Sign In</Text>
-          <View style={{marginTop: heightScreen * 0.021}} />
-        </View>
-        <KeyboardAvoidingView behavior={behavior}>
-          <Text style={styles.inputLabel}>Email</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={email => setEmail(email)}
-            autoCapitalize="none"
-            placeholderTextColor="#BFC9CA"
-          />
-          <View style={{marginTop: heightScreen * 0.011}} />
-          <Text style={styles.inputLabel}>Password</Text>
-          <TextInput
-            style={styles.input}
-            onChangeText={password => setPassword(password)}
-            autoCapitalize="none"
-            secureTextEntry={true}
-            placeholderTextColor="#BFC9CA"
-          />
-          <View style={{marginTop: heightScreen * 0.011}} />
-          <View>
-            {errorMsg != '' ? (
-              <Text style={styles.errtxt}>{errorMsg}</Text>
-            ) : null}
+    <>
+    <Loader loading = {loading}/>
+    <ImageBackground source={backgroundImage} style={styles.container}>
+      <ScrollView>
+        <View style={styles.container2}>
+          <Image style={styles.logo} source={logo} />
+          <View style={styles.form}>
+            <StatusBar backgroundColor="#9df9ef" barStyle="light-content" />
+            <View>
+              <Text style={styles.headerTitle}>Sign In</Text>
+              <View style={{marginTop: heightScreen * 0.021}} />
+            </View>
+            <KeyboardAvoidingView behavior={behavior}>
+              <Text style={styles.inputLabel}>Email</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={email => setEmail(email)}
+                autoCapitalize="none"
+                placeholderTextColor="#BFC9CA"
+              />
+              <View style={{marginTop: heightScreen * 0.011}} />
+              <Text style={styles.inputLabel}>Password</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={password => setPassword(password)}
+                autoCapitalize="none"
+                secureTextEntry={true}
+                placeholderTextColor="#BFC9CA"
+              />
+              <View style={{marginTop: heightScreen * 0.011}} />
+              <View>
+                {errorMsg != '' ? (
+                  <Text style={styles.errtxt}>{errorMsg}</Text>
+                ) : null}
+              </View>
+            </KeyboardAvoidingView>
+            <View style={styles.termsBox}>
+              <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+                <Text style={styles.buttonText}>Sign In</Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.footer}>
+              <Text style={styles.infoText}>Haven't an account?</Text>
+              <TouchableOpacity onPress={() => navigation.pop()}>
+                <Text style={[styles.infoText, styles.greenInfoText]}>
+                  Sign Up
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </KeyboardAvoidingView>
-        <View style={styles.termsBox}>
-          <TouchableOpacity style={styles.button} onPress={handleSubmit}>
-            <Text style={styles.buttonText}>Sign In</Text>
-          </TouchableOpacity>
         </View>
-        <View style={styles.footer}>
-          <Text style={styles.infoText}>Haven't an account?</Text>
-          <TouchableOpacity onPress={() => navigation.pop()}>
-            <Text style={[styles.infoText, styles.greenInfoText]}>Sign Up</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+      </ImageBackground>
+    </>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#d9f9ef',
+    paddingHorizontal: 10,
+    paddingVertical: heightScreen * 0.05,
+  },
+  container2: {
+    backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    paddingBottom: 10,
+    borderRadius: 30,
+    opacity: 10,
+  },
+  image:{
+    justifyContent: "center"
   },
   logo: {
     alignSelf: 'center',
     marginTop: heightScreen * 0.032,
     marginBottom: heightScreen * 0.102,
+    borderRadius: 6,
+    borderColor: '#000',
+    borderWidth: 0.5
   },
   background: {
     position: 'absolute',
@@ -186,8 +211,8 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   errtxt: {
-    fontSize: 18,
     color: 'red',
+    fontSize: 18,
     marginBottom: 10,
   },
   termsBox: {

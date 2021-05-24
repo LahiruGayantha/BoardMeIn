@@ -25,6 +25,7 @@ const OwnerPropView = ({props, navigation, route}) => {
   const [propty, setPropty] = useState([]);
   const oid = route.params.id;
   console.log(oid);
+
   useEffect(() => getData(), []);
 
   const getData = () => {
@@ -55,30 +56,29 @@ const OwnerPropView = ({props, navigation, route}) => {
 
   const ItemView = ({item}) => {
     const img = item.images.url;
-    const editPlace = (id) => {
+    const editPlace = id => {
       try {
         fetch(`${configdata.baseURL}/properties/updateproperty/${a}`, {
-          method: "PUT",
+          method: 'PUT',
         })
           .then(response => response.json())
           .then(responseJson => {
             console.log('responseJson.success');
             if (responseJson.success) {
-              navigation.pop();;
+              navigation.pop();
             }
           })
           .catch(error => {
             console.error(error);
           });
       } catch (error) {}
-      
     };
+
     const deletePlace = id => {
       const a = id;
-      console.log(a);
       try {
         fetch(`${configdata.baseURL}/properties/deleteproperty/${a}`, {
-          method: "DELETE",
+          method: 'DELETE',
         })
           .then(response => response.json())
           .then(responseJson => {
@@ -146,7 +146,16 @@ const OwnerPropView = ({props, navigation, route}) => {
       <SafeAreaView style={{flex: 1}}>
         <View style={styles.container}>
           <TouchableOpacity style={styles.buttonContainer}>
-            <Text style={styles.btntxt} onPress={() => addPlace()}>
+            <Text
+              style={styles.btntxt}
+              onPress={() =>
+                navigation.navigate('Owner', {
+                  screen: 'AddPlace',
+                  params: {
+                    oid: oid,
+                  },
+                })
+              }>
               <Icon name="plus" size={30} color="#00f" />
               Add new place
             </Text>

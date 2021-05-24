@@ -13,9 +13,51 @@ exports.getOwnerById = async (req, res) => {
     if (!owner) {
       return res
         .status(404)
-        .json({success: false, error: `Products not found`});
+        .json({success: false, error: `owner not found`});
     }
     return res.status(200).json({success: true, data: owner});
+  })
+};
+
+exports.updateOwner = async (req, res) => {
+  const body = req.body;
+
+  if (!body) {
+    return res.status(400).json({
+      success: false,
+      error: 'You must provide details to update',
+    });
+  }
+
+  owner.findOne({_id: req.params.id}, (err,owner ) => {
+    if (err) {
+      return res.status(404).json({
+        err,
+        message: 'owner not found!',
+      });
+    }
+    (owner.owner_id = body.owner_id),
+      (owner.firstname = body.firstname),
+      (owner.lastname = body.lastname),
+      (owner.location = body.location),
+      (owner.bio = body.bio),
+      (owner.pic = body.pic),
+      (owner.email = body.email
+
+        .save()
+        .then(() => {
+          return res.status(200).json({
+            success: true,
+            id: owner_id,
+            message: 'Property updated!',
+          });
+        })
+        .catch(error => {
+          return res.status(404).json({
+            error,
+            message: 'Property not updated!',
+          });
+        }));
   });
 };
 

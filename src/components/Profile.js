@@ -37,19 +37,19 @@ const Profile = ({
             <Text style={styles.description}>{owner}</Text>
             <Text style={styles.description}>{bio}</Text>
             <Text style={styles.description}>{location}</Text>
+            <TouchableOpacity onPress={nav}>
+        <Icon name="account-edit" size={30} color="#323232" /></TouchableOpacity>
           </View>
         </View>
-        <TouchableOpacity onPress={nav}>
-        <Icon name="account-edit" size={30} color="#323232" /></TouchableOpacity>
       </View>
       <TouchableOpacity
         style={styles.buttonContainer}
-        onPress={onPress1}><Text style={styles.btntxt}><Icon name="wechat" size={30} color="#00f" />{' '}Chat </Text></TouchableOpacity>
+        onPress={onPress1}><Text style={styles.btntxt}><Icon name="wechat" size={30} color="#fff" />{' '}Chat </Text></TouchableOpacity>
       <TouchableOpacity style={styles.buttonContainer}>
-        <Text style={styles.btntxt} onPress={onPress2}><Icon name={iname} size={30} color="#00f"/>{' '}{btn2}</Text>
+        <Text style={styles.btntxt} onPress={onPress2}><Icon name={iname} size={30} color="#fff"/>{' '}{btn2}</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.buttonContainer} onPress={onPress3}>
-        <Text style={styles.btntxt}><Icon name="file-document-edit" size={30} color="#00f" />{' '}Send Inquery</Text>
+        <Text style={styles.btntxt}><Icon name="file-document-edit" size={30} color="#fff" />{' '}Send Inquery</Text>
       </TouchableOpacity>
     </View>
   );
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     paddingBottom: heightScreen * 0.057,
-    paddingLeft: 15,
+    paddingLeft: 25,
     paddingRight: 15,
     paddingTop: 6,
   },
@@ -90,8 +90,8 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   info: {
-    fontSize: 16,
-    color: '#00BFFF',
+    fontSize: 18,
+    color: '#00f',
     marginTop: 10,
   },
   description: {
@@ -104,11 +104,13 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     width: widthScreen * 0.8,
     padding: 10,
-    borderColor: '#00f',
-    borderWidth: 1,
+    backgroundColor: '#6272E9',
+    borderRadius: 5,
+    borderWidth:3,
+    borderColor:'#fff'
   },
   btntxt:{
-    color:"#00f",
+    color:"#fff",
     fontSize:20,
     textAlign:'justify',
     padding: 2

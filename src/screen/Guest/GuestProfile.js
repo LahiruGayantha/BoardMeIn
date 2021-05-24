@@ -17,13 +17,16 @@ const GuestProfile = ({navigation}) => {
     try {
       const jsonValue = await AsyncStorage.getItem('@guser');
       const result = JSON.parse(jsonValue);
-      console.log(result)
+      console.log(result);
       setGUser({
         ...guser,
         firstname: result.firstname,
         lastname: result.lastname,
         email: result.email,
         _id: result._id,
+        pic: result.pic,
+        location: result.location,
+        bio: result.bio,
       });
     } catch (error) {
       console.log(error);
@@ -31,14 +34,19 @@ const GuestProfile = ({navigation}) => {
   };
   useEffect(() => fetchData(), []);
   return (
-    <SafeAreaView style={{flex: 1}}>
-      <Profile
-        username={guser.firstname + ' ' + guser.lastname}
-        usermail={guser.email}
-        owner="Lodger"
-        btn2="View Bookings"
-        onPress1={() => navigation.pop()}
-      />
+    <SafeAreaView style={{flex:1}}>
+      <View style={styles.container}>
+        <Profile
+          username={guser.firstname + ' ' + guser.lastname}
+          usermail={guser.email}
+          owner="Lodger"
+          btn2="View Bookings"
+          onPress1={() => navigation.pop()}
+          img={guser.pic}
+          bio={guser.bio}
+          location={guser.location}
+        />
+      </View>
     </SafeAreaView>
   );
 };
@@ -47,10 +55,10 @@ const styles = StyleSheet.create({
   container: {
     position: 'absolute',
     width: widthScreen,
+    height: heightScreen,
     alignItems: 'flex-start',
-    paddingHorizontal: widthScreen * 0.073,
-    paddingBottom: heightScreen * 0.057,
     paddingTop: heightScreen * 0.057,
+    backgroundColor: '#9EFEB4',
   },
 });
 

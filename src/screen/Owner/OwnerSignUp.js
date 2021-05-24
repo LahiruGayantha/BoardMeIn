@@ -209,12 +209,16 @@ export default {component: OwnerSignUp, name: 'OwnerSignUp'};
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#d9f9ef',
+    backgroundColor: '#adf',
+    padding:10,
   },
   logo: {
     alignSelf: 'center',
     marginTop: heightScreen * 0.032,
     marginBottom: heightScreen * 0.102,
+    borderRadius: 6,
+    borderColor: '#000',
+    borderWidth: 0.5
   },
   background: {
     position: 'absolute',

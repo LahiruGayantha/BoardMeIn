@@ -18,6 +18,7 @@ import OwnerSignIn from './screen/Owner/OwnerSignIn';
 import OwnerSignUp from './screen/Owner/OwnerSignUp';
 import OwnerProfile from './screen/Owner/OwnerProfile';
 import OwnerPropView from './screen/Owner/OwnerPropView';
+import AddPlace from './screen/Owner/AddPlace';
 
 import {
   GuestSignIn,
@@ -39,7 +40,7 @@ import Book from './screen/Booking/Book';
 
 import Chat from './screen/Chat/ChatUI';
 
-import AddComment from './screen/Feedback/AddComment'
+import AddComment from './screen/Feedback/AddComment';
 
 import {drawerItemsMain} from './drawer/DrawerItemsMain';
 import CustomDrawerContent from './drawer/CustomDrawerContent.js';
@@ -48,6 +49,7 @@ import CustomHeader from './drawer/CustomHeader';
 const Stack = createStackNavigator();
 const HStack = createStackNavigator();
 const GPStack = createStackNavigator();
+const OStack = createStackNavigator();
 const PropStack = createStackNavigator();
 const CStack = createStackNavigator();
 const IStack = createStackNavigator();
@@ -68,6 +70,7 @@ const Auth = ({navigation}) => {
       <Stack.Screen name={OwnerSignIn.name} component={OwnerSignIn.component} />
       <Stack.Screen name={GuestSignIn.name} component={GuestSignIn.component} />
       <Stack.Screen name={GuestSignUp.name} component={GuestSignUp.component} />
+      <Stack.Screen name="property" component={Property} />
     </Stack.Navigator>
   );
 };
@@ -86,26 +89,15 @@ const GProfile = ({navigation}) => {
   );
 };
 
-const Home = () => {
-  return (
-    <HStack.Navigator screenOptions={{headerShown: false}}>
-      <HStack.Screen
-        name={DisplayCategory.name}
-        component={DisplayCategory.component}
-        options={{
-          title: 'Home',
-        }}
-      />
-    </HStack.Navigator>
-  );
-};
-
 const Property = ({navigation}) => {
   return (
     <PropStack.Navigator
-      initialRouteName="Home"
+      initialRouteName="Auth"
       screenOptions={{headerShown: false}}>
-      <PropStack.Screen name="Home" component={Home} />
+      <PropStack.Screen
+        name={DisplayCategory.name}
+        component={DisplayCategory.component}
+      />
       <PropStack.Screen
         name={Moredetail.name}
         component={Moredetail.component}
@@ -134,7 +126,7 @@ const Property = ({navigation}) => {
 
 const ChatA = () => {
   return (
-    <CStack.Navigator >
+    <CStack.Navigator>
       <CStack.Screen name={Chat.name} component={Chat.component} />
     </CStack.Navigator>
   );
@@ -142,7 +134,7 @@ const ChatA = () => {
 
 const Inquery = () => {
   return (
-    <IStack.Navigator >
+    <IStack.Navigator>
       <IStack.Screen name={Chat.name} component={Chat.component} />
     </IStack.Navigator>
   );
@@ -155,20 +147,20 @@ const Guest = ({navigation}) => {
       drawerContent={props => (
         <CustomDrawerContent drawerItems={drawerItemsMain} {...props} />
       )}>
-      <Drawer.Screen name="GProfile" component={GProfile} />
       <Drawer.Screen name="Property" component={Property} />
+      <Drawer.Screen name="GProfile" component={GProfile} />
     </Drawer.Navigator>
   );
 };
 
-const Owner = () => {
+const Owner = navigation => {
   const logOut = async () => {
     console.log('log out');
     AsyncStorage.clear();
     navigation.replace('Auth');
   };
   return (
-    <Stack.Navigator
+    <OStack.Navigator
       initialRouteName="OwnerProfile"
       screenOptions={{
         headerStyle: {
@@ -182,17 +174,22 @@ const Owner = () => {
           <Icon name="power" size={25} color="#fff" onPress={() => logOut()} />
         ),
       }}>
-      <Stack.Screen
+      <OStack.Screen
         name={OwnerProfile.name}
         component={OwnerProfile.component}
         options={{title: 'Owner Profile'}}
       />
-      <Stack.Screen
+      <OStack.Screen
         name={OwnerPropView.name}
         component={OwnerPropView.component}
         options={{title: 'View places'}}
       />
-    </Stack.Navigator>
+      <OStack.Screen
+        name={AddPlace.name}
+        component={AddPlace.component}
+        options={{title: 'Add new place'}}
+      />
+    </OStack.Navigator>
   );
 };
 
@@ -241,7 +238,7 @@ const App = () => {
         <Stack.Screen
           name="Property"
           component={Property}
-          options={{headerShown: true}}
+          options={{headerShown: false}}
         />
         <Stack.Screen
           name="Owner"

@@ -44,11 +44,12 @@ const OwnerProfile = ({navigation}) => {
   useEffect(() => fetchData(), []);
   return (
     <SafeAreaView style={{flex: 1}}>
+    <View style={styles.container}>
       <Profile
         username={ouser.firstname + ' ' + ouser.lastname}
         usermail={ouser.email}
         owner="Owner"
-        btn2="View my .."
+        btn2="View my rent places"
         onPress1={() => navigation.pop()}
         onPress2={() => viewProp()}
         img={ouser.pic}
@@ -57,15 +58,19 @@ const OwnerProfile = ({navigation}) => {
         nav={() => Alert.alert('ok')}
         iname="home-city"
       />
+      </View>
     </SafeAreaView>
   );
 };
 //
 const styles = StyleSheet.create({
   container: {
+    position: 'absolute',
     width: widthScreen,
+    alignItems: 'flex-start',
     paddingHorizontal: widthScreen * 0.073,
     paddingBottom: heightScreen * 0.057,
+    paddingTop: heightScreen * 0.057,
   },
 });
 

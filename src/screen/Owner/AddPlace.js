@@ -18,11 +18,14 @@ import isEmpty from 'validator/lib/isEmpty';
 import isEmail from 'validator/lib/isEmail';
 import equals from 'validator/lib/equals';
 import configdata from '../../config/config';
-import Loader from '../../components/Loader';
+import {launchCamera, launchImageLibrary} from 'react-native-image-picker';
 
+import Loader from '../../components/Loader';
+import CaptureImage from '../../helpers/imageupload';
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 
-const AddPlace = id => {
+const AddPlace = ({route}) => {
+  const oid = route.params.oid
   const [data, setData] = useState({
     location: '',
     address: '',
@@ -30,14 +33,14 @@ const AddPlace = id => {
     images: [(public_id: ''), (url: '')],
     description: '',
     price: '',
-    owner_id: id,
+    owner_id: oid,
   });
-  const [img, setImg] = useState([]);
+  const [img, setImg] = useState({});
   const [success, setSuccess] = useState(true);
   const [loading, setLoading] = useState(false);
 
   const imgUpload = () => {
-    const images = target.images[0];
+    const images = target.files[0];
     if (!images) return alert('File not exist.');
 
     if (images.size > 1024 * 1024)
@@ -93,4 +96,12 @@ const AddPlace = id => {
         console.error(error);
       });
   }
+
+  return (
+    <View>
+      <CaptureImage />
+    </View>
+  );
 };
+
+export default {component:AddPlace, name:"AddPlace"}

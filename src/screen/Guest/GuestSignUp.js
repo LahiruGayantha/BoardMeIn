@@ -191,8 +191,7 @@ const GuestSignUp = ({props, navigation}) => {
           </View>
           <View style={styles.footer}>
             <Text style={styles.infoText}>Already have an guest account? </Text>
-            <TouchableOpacity
-              onPress={() => navigation.pop()}>
+            <TouchableOpacity onPress={() => navigation.pop()}>
               <Text style={[styles.infoText, styles.greenInfoText]}>
                 Sign in
               </Text>
@@ -208,12 +207,16 @@ export default {component: GuestSignUp, name: 'GuestSignUp'};
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#d9f9ef',
+    backgroundColor: '#adf',
+    padding:10,
   },
   logo: {
     alignSelf: 'center',
     marginTop: heightScreen * 0.032,
     marginBottom: heightScreen * 0.102,
+    borderRadius: 6,
+    borderColor: '#000',
+    borderWidth: 0.5
   },
   background: {
     position: 'absolute',
@@ -223,6 +226,9 @@ const styles = StyleSheet.create({
   },
   form: {
     paddingHorizontal: widthScreen * 0.06,
+    borderRadius: 30,
+    backgroundColor:'#d9f9ef',
+    paddingVertical:30,
   },
   inputLabel: {
     fontSize: 20,

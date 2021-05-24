@@ -4,7 +4,6 @@ import { StyleSheet, Text, View, Dimensions } from 'react-native';
 
  const GoogleMap =()=> {
   return (
-
      <MapView  
           style={styles.mapStyle}  
           showsUserLocation={false}  

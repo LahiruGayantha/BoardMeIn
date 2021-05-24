@@ -3,6 +3,7 @@ const router = express.Router();
 
 const {
   getOwnerById,
+  updateOwner,
   updateOwnerPic,
   updateOwnerUName,
   updateOwnerBio,
@@ -11,6 +12,7 @@ const {
 } = require('../controllers/ownerProfile');
 
 router.get("/:id", getOwnerById);
+router.put("/update",updateOwner);
 router.put("/updatepic", updateOwnerPic);
 router.put("/username", updateOwnerUName);
 router.put("/bio",updateOwnerBio);
