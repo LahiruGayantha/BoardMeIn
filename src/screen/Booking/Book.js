@@ -7,7 +7,7 @@ import {
   TouchableOpacity,
   Dimensions,
   ScrollView,
-  Alert
+  Alert,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import configdata from '../../config/config';
@@ -71,13 +71,11 @@ const Book = ({route, navigation}) => {
       <View style={styles.row}>
         <Text style={styles.subtitle}>Payment</Text>
         <View style={styles.valuecontainer}>
-          <Text style={styles.value}>
-            {price}
-          </Text>
+          <Text style={styles.value}>{price}</Text>
         </View>
       </View>
       <View style={styles.row}>
-        <TouchableOpacity onPress={() => Alert.alert('Connect to the payment gateway')}>
+        <TouchableOpacity onPress={payHere}>
           <Image style={styles.image} source={payHere} />
         </TouchableOpacity>
       </View>
