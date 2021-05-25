@@ -3,26 +3,27 @@ const app = express();
 const cors = require('cors');
 const morgan = require('morgan');
 const authRoutes = require('./routes/auth');
-const gprofileRoutes = require("./routes/gProfileRoutes");
-const oprofileRoutes = require("./routes/oProfileRoutes");
-const propertyRoutes = require("./routes/pRoutes");
-const dotenv = require("dotenv");
-dotenv.config(); 
-const fileUpload = require('express-fileupload') ;
+const gprofileRoutes = require('./routes/gProfileRoutes');
+const oprofileRoutes = require('./routes/oProfileRoutes');
+const propertyRoutes = require('./routes/pRoutes');
+const bookingRoutes = require('./routes/bookRoutes');
+const dotenv = require('dotenv');
+dotenv.config();
+const fileUpload = require('express-fileupload');
 const cookieParser = require('cookie-parser');
 
 const connectDB = require('./db/db');
 
-
 app.use(cors());
 app.use(morgan('dev'));
-app.use(cookieParser())
+app.use(cookieParser());
 app.use(express.json());
 app.use('/api/auth', authRoutes);
-app.use("/api/gprofile", gprofileRoutes);
-app.use("/api/oprofile", oprofileRoutes);
-app.use("/api/properties", propertyRoutes);
-app.use('/api', require('./routes/upload'))
+app.use('/api/gprofile', gprofileRoutes);
+app.use('/api/oprofile', oprofileRoutes);
+app.use('/api/properties', propertyRoutes);
+app.use('/api/property', bookingRoutes);
+app.use('/api', require('./routes/upload'));
 
 connectDB();
 

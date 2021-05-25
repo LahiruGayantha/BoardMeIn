@@ -95,7 +95,7 @@ const GuestSignIn = ({navigation}) => {
           <View style={styles.form}>
             <StatusBar backgroundColor="#9df9ef" barStyle="light-content" />
             <View>
-              <Text style={styles.headerTitle}>Sign In</Text>
+              <Text style={styles.headerTitle}>Sign In: Guest</Text>
               <View style={{marginTop: heightScreen * 0.021}} />
             </View>
             <KeyboardAvoidingView behavior={behavior}>

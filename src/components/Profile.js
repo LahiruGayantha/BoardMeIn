@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
-  Alert
+  Alert,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
@@ -24,12 +24,12 @@ const Profile = ({
   nav,
   onPress2,
   iname,
-  onPress3
+  onPress3,
 }) => {
   return (
     <View style={styles.container}>
       <View style={styles.userRow}>
-        <Image style={styles.avatar} source={img ?{uri: img}: null} />
+        <Image style={styles.avatar} source={img ? {uri: img} : null} />
         <View style={styles.body}>
           <View style={styles.bodyContent}>
             <Text style={styles.name}>{username}</Text>
@@ -38,18 +38,25 @@ const Profile = ({
             <Text style={styles.description}>{bio}</Text>
             <Text style={styles.description}>{location}</Text>
             <TouchableOpacity onPress={nav}>
-        <Icon name="account-edit" size={30} color="#323232" /></TouchableOpacity>
+              <Icon name="account-edit" size={30} color="#323232" />
+            </TouchableOpacity>
           </View>
         </View>
       </View>
-      <TouchableOpacity
-        style={styles.buttonContainer}
-        onPress={onPress1}><Text style={styles.btntxt}><Icon name="wechat" size={30} color="#fff" />{' '}Chat </Text></TouchableOpacity>
+      <TouchableOpacity style={styles.buttonContainer} onPress={onPress1}>
+        <Text style={styles.btntxt}>
+          <Icon name="wechat" size={30} color="#fff" /> Chat{' '}
+        </Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.buttonContainer}>
-        <Text style={styles.btntxt} onPress={onPress2}><Icon name={iname} size={30} color="#fff"/>{' '}{btn2}</Text>
+        <Text style={styles.btntxt} onPress={onPress2}>
+          <Icon name={iname} size={30} color="#fff" /> {btn2}
+        </Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.buttonContainer} onPress={onPress3}>
-        <Text style={styles.btntxt}><Icon name="file-document-edit" size={30} color="#fff" />{' '}Send Inquery</Text>
+        <Text style={styles.btntxt}>
+          <Icon name="file-document-edit" size={30} color="#fff" /> Send Inquery
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -106,14 +113,14 @@ const styles = StyleSheet.create({
     padding: 10,
     backgroundColor: '#6272E9',
     borderRadius: 5,
-    borderWidth:3,
-    borderColor:'#fff'
+    borderWidth: 3,
+    borderColor: '#fff',
   },
-  btntxt:{
-    color:"#fff",
-    fontSize:20,
-    textAlign:'justify',
-    padding: 2
+  btntxt: {
+    color: '#fff',
+    fontSize: 20,
+    textAlign: 'justify',
+    padding: 2,
   },
   container: {
     width: widthScreen,

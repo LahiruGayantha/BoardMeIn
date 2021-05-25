@@ -11,13 +11,20 @@ exports.getGuestById = async (req, res) => {
     }
 
     if (!guest) {
-      return res
-        .status(404)
-        .json({success: false, error: `Products not found`});
+      return res.status(404).json({success: false, error: `Guest not found`});
     }
     return res.status(200).json({success: true, data: guest});
-  })
+  });
 };
+
+exports.updateGuest = async (req, res) => {
+  const body = req.body;
+  Guest.updateOne(
+    {_id: req.params.id},
+ 
+  );
+};
+
 exports.updateGuestPic = async (req, res) => {
   await Guest.findByIdAndUpdate(
     req.user._id,

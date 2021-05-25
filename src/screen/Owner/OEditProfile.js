@@ -21,46 +21,58 @@ import configdata from '../../config/config';
 
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 
-const GEditProfile = ({navigation}) => {
-  const [id, setId] = useState('');
+const OEditProfile = ({navigation}) => {
+  const [ouser, setOUser] = useState({
+    email: '',
+    _id: '',
+    pic: '',
+  });
   const [firstname, setFirstname] = useState('');
   const [lastname, setLastname] = useState('');
   const [pic, setPic] = useState('');
   const [location, setLocation] = useState('');
   const [bio, setBio] = useState('');
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
 
   const fetchData = async () => {
     try {
       setLoading(true);
-      const jsonValue = await AsyncStorage.getItem('@guser');
+      const jsonValue = await AsyncStorage.getItem('@ouser');
       const result = JSON.parse(jsonValue);
       console.log(result);
       setLoading(false);
-      setFirstname(result.firstname);
-      setLastname(result.lastname);
-      setLocation(result.location);
-      setBio(result.bio);
-      setEmail(result.email);
-      setPic(result.pic);
+      setFirstname(result.firstname)
+      setLastname(result.lastname)
+      setLocation(result.location)
+      setBio(result.bio)
+      setOUser({
+        ...ouser,
+        email: result.email,
+        _id: result._id,
+        pic: result.pic
+      });
     } catch (error) {
       console.log(error);
     }
   };
+  const id = ouser._id;
   const handleEdit = () => {
     setLoading(true);
-    fetch(`${configdata.baseURL}/gprofile/update/${id}`, {
+    fetch(`${configdata.baseURL}/oprofile/update/${id}`, {
       method: 'PUT',
+      mode: 'cors',
       headers: {
+        Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
         firstname: firstname,
         lastname: lastname,
-        pic: pic,
+        pic: ouser.pic,
         location: location,
         bio: bio,
+        id: ouser._id,
+        email: ouser.email
       }),
     })
       .then(response => response.json())
@@ -74,13 +86,14 @@ const GEditProfile = ({navigation}) => {
       });
   };
   useEffect(() => fetchData(), []);
+  const img = ouser.pic;
   return (
     <SafeAreaView style={{flex: 1}}>
       <>
         <Loader loading={loading} />
         <ScrollView style={styles.container}>
           <View style={styles.form}>
-            <Image style={styles.avatar} source={pic ? {uri: pic} : null} />
+            <Image style={styles.avatar} source={img ? {uri: img} : null} />
             <StatusBar backgroundColor="#9df9ef" barStyle="light-content" />
             <KeyboardAvoidingView>
               <Text style={styles.inputLabel}>First Name</Text>
@@ -106,7 +119,7 @@ const GEditProfile = ({navigation}) => {
                 style={styles.input}
                 editable={false}
                 autoCapitalize="none"
-                value={email}
+                value={ouser.email}
                 placeholderTextColor="#BFC9CA"
               />
               <View style={{marginTop: heightScreen * 0.011}} />
@@ -243,4 +256,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default {component: GEditProfile, name: 'GEditProfile'};
+export default {component: OEditProfile, name: 'OEditProfile'};

@@ -56,12 +56,12 @@ const OwnerProfile = ({navigation}) => {
             usermail={ouser.email}
             owner="Owner"
             btn2="View my rent places"
-            onPress1={() => navigation.pop()}
+            onPress1={() => navigation.navigate('ChatA',{screen: 'Chat'})}
             onPress2={() => viewProp()}
             img={ouser.pic}
             bio={ouser.bio}
             location={ouser.location}
-            nav={() => Alert.alert('ok')}
+            nav={() => navigation.navigate('Owner',{screen: 'OEditProfile'})}
             iname="home-city"
           />
         </View>
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     height: heightScreen,
     alignItems: 'flex-start',
     paddingTop: heightScreen * 0.057,
-    backgroundColor: '#9EFEB4',
+    backgroundColor: '#9EFE',
   },
 });
 

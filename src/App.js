@@ -18,6 +18,7 @@ import OwnerSignIn from './screen/Owner/OwnerSignIn';
 import OwnerSignUp from './screen/Owner/OwnerSignUp';
 import OwnerProfile from './screen/Owner/OwnerProfile';
 import OwnerPropView from './screen/Owner/OwnerPropView';
+import OEditProfile from './screen/Owner/OEditProfile';
 import AddPlace from './screen/Owner/AddPlace';
 
 import {
@@ -178,6 +179,11 @@ const Owner = ({navigation}) => {
         name={OwnerProfile.name}
         component={OwnerProfile.component}
         options={{title: 'Owner Profile'}}
+      />
+      <OStack.Screen
+        name={OEditProfile.name}
+        component={OEditProfile.component}
+        options={{title: 'Update Profile '}}
       />
       <OStack.Screen
         name={OwnerPropView.name}

@@ -1,6 +1,5 @@
 const router = require('express').Router();
 const upload = require('../config/multer');
-const User = require('../models/user');
 const cloudinary = require('cloudinary').v2;
 const fs = require('fs');
 

@@ -53,6 +53,7 @@ const GuestProfile = ({navigation}) => {
             img={guser.pic}
             bio={guser.bio}
             location={guser.location}
+            nav={()=> navigation.navigate('GProfile', {screen: 'GEditProfile'})}
           />
         </View>
       </SafeAreaView>

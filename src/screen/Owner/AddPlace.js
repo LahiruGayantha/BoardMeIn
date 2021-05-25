@@ -26,7 +26,10 @@ const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 
 const AddPlace = ({route}) => {
   const oid = route.params.oid;
-  const [data, setData] = useState({});
+  const [location, setLocation] = useState('');
+  const [description, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [address, setAddress] = useState('');
   const [filePath, setFilePath] = useState({});
   const [imageSource, setImageSource] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -63,7 +66,6 @@ const AddPlace = ({route}) => {
         let source = {uri: response.uri};
         // ADD THIS
         setImageSource(source.uri);
-        setFilePath(response);
       }
     });
   }
@@ -90,7 +92,6 @@ const AddPlace = ({route}) => {
       .then(response => response.json())
       .then(response => {
         console.log('upload succes', response);
-        alert('Upload success!');
         setFilePath(response);
       })
       .catch(error => {
@@ -99,121 +100,143 @@ const AddPlace = ({route}) => {
       });
   };
 
-  const uploadData = filePath => {
-    if (isEmpty(data)) {
-      Alert.alert('Please fill all fields');
-      return;
-    } else {
-      setLoading(true);
-      uploadImage(filePath);
-      fetch(`${configdata.baseURL}/properties/addproperty`, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          location: data.location,
-          address: data.address,
-          price: data.price,
-          description: data.description,
-          category: value,
-          images: {
-            public_id: filePath.public_id,
-            url: filePath.url,
-          },
-          owner_id: oid,
-        }),
+  const uploadData = imageSource => {
+    uploadImage(imageSource);
+    setLoading(true);
+
+    fetch(`${configdata.baseURL}/properties/addproperty`, {
+      method: 'POST',
+      mode: 'cors',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        location: location,
+        address: address,
+        price: price,
+        description: description,
+        category: value,
+        images: filePath,
+        owner_id: oid,
+        product_id: filePath.public_id,
+      }),
+    })
+      .then(response => response.json())
+      .then(responseJson => {
+        setLoading(false);
+        console.log(responseJson.msg);
+        Alert.alert(responseJson.msg);
+        setImageSource(null);
+        setLocation('');
+        setAddress('');
+        setPrice('');
+      })
+      .catch(error => {
+        setLoading(false);
+        console.error(error);
       });
-    }
   };
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
   }, []);
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <Text>Add new place</Text>
-        <View style={styles.imageContainer}>
-          {imageSource === null ? (
-            <Image source={null} style={styles.imageBox} resizeMode="contain" />
-          ) : (
-            <Image
-              source={{uri: imageSource}}
-              style={styles.imageBox}
-              resizeMode="contain"
-            />
-          )}
-          <TouchableOpacity
-            onPress={selectImage}
-            style={[
-              styles.selectButtonContainer,
-              {backgroundColor: '#999999'},
-            ]}>
-            <Text style={styles.selectButtonTitle}>Add photo</Text>
-          </TouchableOpacity>
-        </View>
-        <KeyboardAvoidingView>
-          <View style={styles.form}>
-            <Text style={styles.inputLabel}>Location</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={location => setData(location)}
-              autoCapitalize="none"
-              placeholderTextColor="#BFC9CA"
-            />
-            <View style={{marginTop: heightScreen * 0.011}} />
-            <Text style={styles.inputLabel}>Address</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={address => setData(address)}
-              autoCapitalize="none"
-              placeholderTextColor="#BFC9CA"
-            />
-            <View style={{marginTop: heightScreen * 0.011}} />
-            <Text style={styles.inputLabel}>Description</Text>
-            <TextInput
-              style={styles.minput}
-              multiline
-              numberOfLines={4}
-              onChangeText={description => setData(description)}
-              autoCapitalize="none"
-              placeholderTextColor="#BFC9CA"
-            />
-            <View style={{marginTop: heightScreen * 0.011}} />
-            <Text style={styles.inputLabel}>Price</Text>
-            <TextInput
-              style={styles.input}
-              onChangeText={price => setData(price)}
-              autoCapitalize="none"
-              placeholderTextColor="#BFC9CA"
-            />
-            <View style={{marginTop: heightScreen * 0.011}} />
-            <Text style={styles.inputLabel}>Category</Text>
-            <DropDownPicker
-              open={open}
-              value={value}
-              items={items}
-              setOpen={setOpen}
-              setValue={setValue}
-              setItems={setItems}
-              onPress={() => setOpen(true)}
-              containerStyle={{
-                width: widthScreen * 0.9,
-              }}
-              maxHeight={200}
-            />
-            <View style={{marginTop: heightScreen * 0.2}} />
+    <>
+      <Loader loading={loading} />
+      <ScrollView>
+        <View style={styles.container}>
+          <Text style={styles.title}>Add new place</Text>
+          <View style={styles.imageContainer}>
+            {imageSource === null ? (
+              <Image
+                source={null}
+                style={styles.imageBox}
+                resizeMode="contain"
+              />
+            ) : (
+              <Image
+                source={{uri: imageSource}}
+                style={styles.imageBox}
+                resizeMode="contain"
+              />
+            )}
+            <TouchableOpacity
+              onPress={selectImage}
+              style={[
+                styles.selectButtonContainer,
+                {backgroundColor: '#999999'},
+              ]}>
+              <Text style={styles.selectButtonTitle}>Add photo</Text>
+            </TouchableOpacity>
           </View>
-        </KeyboardAvoidingView>
-        <View>
-          <TouchableOpacity onPress={() => uploadData(filePath)}>
-            <Button title="Upload" />
-          </TouchableOpacity>
+          <KeyboardAvoidingView>
+            <View style={styles.form}>
+              <Text style={styles.inputLabel}>Location</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={location => setLocation(location)}
+                autoCapitalize="none"
+                placeholderTextColor="#BFC9CA"
+              />
+              <View style={{marginTop: heightScreen * 0.011}} />
+              <Text style={styles.inputLabel}>Address</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={address => setAddress(address)}
+                autoCapitalize="none"
+                placeholderTextColor="#BFC9CA"
+              />
+              <View style={{marginTop: heightScreen * 0.011}} />
+              <Text style={styles.inputLabel}>Description</Text>
+              <TextInput
+                style={styles.minput}
+                multiline
+                numberOfLines={4}
+                onChangeText={description => setDescription(description)}
+                autoCapitalize="none"
+                placeholderTextColor="#BFC9CA"
+              />
+              <View style={{marginTop: heightScreen * 0.011}} />
+              <Text style={styles.inputLabel}>Price</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={price => setPrice(price)}
+                autoCapitalize="none"
+                placeholderTextColor="#BFC9CA"
+              />
+              <View style={{marginTop: heightScreen * 0.011}} />
+              <Text style={styles.inputLabel}>Category</Text>
+              <View style={styles.userRow}>
+                <DropDownPicker
+                  open={open}
+                  value={value}
+                  items={items}
+                  setOpen={setOpen}
+                  setValue={setValue}
+                  setItems={setItems}
+                  onPress={() => setOpen(true)}
+                  containerStyle={{
+                    width: widthScreen * 0.5,
+                  }}
+                  zIndex={2000}
+                  zIndexInverse={2000}
+                  maxHeight={200}
+                  closeAfterSelecting={true}
+                  color="#000"
+                />
+                <View style={{marginTop: heightScreen * 0.21}} />
+                <TouchableOpacity
+                  style={styles.uploadBtn}
+                  onPress={() => uploadData(filePath)}>
+                  <Text style={{color: '#fff'}}>Upload</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </KeyboardAvoidingView>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </>
   );
 };
 
@@ -243,6 +266,14 @@ const styles = StyleSheet.create({
     borderBottomColor: '#888888',
     marginBottom: heightScreen * 0.022,
     width: widthScreen * 0.9,
+  },
+  userRow: {
+    alignItems: 'flex-start',
+    flexDirection: 'row',
+    paddingBottom: heightScreen * 0.057,
+    paddingLeft: 25,
+    paddingRight: 15,
+    paddingTop: 6,
   },
   minput: {
     fontFamily: 'Gilroy-Medium',
@@ -286,6 +317,8 @@ const styles = StyleSheet.create({
   selectButtonContainer: {
     margin: 20,
     borderRadius: 5,
+    marginHorizontal: 10,
+    marginLeft: 10,
   },
   selectButtonTitle: {
     padding: 10,
@@ -302,4 +335,13 @@ const styles = StyleSheet.create({
     width: widthScreen * 0.5,
     height: 150,
   },
+  uploadBtn: {
+    padding: 10,
+    margin: 10,
+    backgroundColor: '#00f',
+  },
+  title:{
+    fontFamily: 'Gilroy-Heavy',
+    fontSize: 28
+  }
 });
