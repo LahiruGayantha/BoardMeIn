@@ -12,7 +12,7 @@ import {
   SafeAreaView,
   ActivityIndicator,
 } from 'react-native';
-import { SearchBar } from 'react-native-elements';
+import {SearchBar} from 'react-native-elements';
 
 import configdata from '../../config/config';
 import Moredetail from './Moredetail';
@@ -37,8 +37,8 @@ const SingleRoomDashboard = ({props, navigation}) => {
       .then(responseJson => {
         //console.log(responseJson.products);
         setData(responseJson.products);
-        setFilterdata(responseJson.products)
-        setLoading(false);        
+        setFilterdata(responseJson.products);
+        setLoading(false);
       })
       .catch(error => {
         console.error(error);
@@ -47,10 +47,9 @@ const SingleRoomDashboard = ({props, navigation}) => {
     return function cleanup() {
       abortController.abort();
     };
-    
   };
 
-    const searchFilterFunction = (text) => {
+  const searchFilterFunction = text => {
     if (text) {
       const newData = data.filter(function (item) {
         const itemData = item.location
@@ -66,7 +65,7 @@ const SingleRoomDashboard = ({props, navigation}) => {
       setSearch(text);
     }
   };
-  
+
   const ItemView = ({item}) => {
     const img = item.images.url;
     return (
@@ -86,7 +85,7 @@ const SingleRoomDashboard = ({props, navigation}) => {
         <View style={styles.cardFooter}>
           <View style={styles.socialBarContainer}>
             <View style={styles.socialBarSection}>
-              <Text style={styles.socialBarLabel} onPress={() => book()}>
+              <Text style={styles.socialBarLabel} onPress={() => book(item)}>
                 Book now
               </Text>
             </View>
@@ -117,31 +116,41 @@ const SingleRoomDashboard = ({props, navigation}) => {
   };
 
   const moreDetail = item => {
-    //Function for click on an item
     navigation.navigate('Moredetail', {
-      pid:item._id,
+      pid: item._id,
       type: item.category,
       price: item.price,
       location: item.location,
       description: item.description,
       pimg: item.images.url,
-      address:item.address,
+      address: item.address,
     });
   };
 
-  const book = () => {
-    //Function for click on an item
-    navigation.pop();
+  const book = (item) => {
+    navigation.navigate('Property', {
+      screen: 'Book',
+      params: {
+        pid: item._id,
+        type: item.category,
+        price: item.price,
+        location: item.location,
+        description: item.description,
+        pimg: item.images.url,
+        address: item.address,
+        oid: item.owner_id,
+      },
+    });
   };
 
   return (
     <SafeAreaView style={{flex: 1}}>
       <View style={styles.container}>
-      <SearchBar
+        <SearchBar
           round
-          searchIcon={{ size: 24 }}
-          onChangeText={(text) => searchFilterFunction(text)}
-          onClear={(text) => searchFilterFunction('')}
+          searchIcon={{size: 24}}
+          onChangeText={text => searchFilterFunction(text)}
+          onClear={text => searchFilterFunction('')}
           placeholder="Find by location"
           value={search}
         />

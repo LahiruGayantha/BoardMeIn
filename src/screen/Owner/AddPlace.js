@@ -225,7 +225,7 @@ const AddPlace = ({route}) => {
                   closeAfterSelecting={true}
                   color="#000"
                 />
-                <View style={{marginTop: heightScreen * 0.21}} />
+                <View style={{marginTop: heightScreen * 0.11}} />
                 <TouchableOpacity
                   style={styles.uploadBtn}
                   onPress={() => uploadData(filePath)}>

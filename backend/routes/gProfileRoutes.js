@@ -1,18 +1,15 @@
 const express = require('express');
 const router = express.Router();
-
 const {
   getGuestById,
-  updateGuest,
   updateGuestPic,
   updateGuestUName,
   updateGuestBio,
   updateGuestLocation,
   updatePassword,
-} = require('../controllers/guestProfile');
+} = require('../controllers/guestProfileCtrl');
 
 router.get("/:id", getGuestById);
-router.put("/update/:id", updateGuest)
 router.put("/updatepic", updateGuestPic);
 router.put("/username", updateGuestUName);
 router.put("/bio",updateGuestBio);

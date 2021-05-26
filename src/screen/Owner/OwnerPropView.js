@@ -7,11 +7,12 @@ import {
   Image,
   Alert,
   FlatList,
-  Button,
   SafeAreaView,
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
+import {Button, Dialog, Portal} from 'react-native-paper';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Loader from '../../components/Loader';
@@ -23,6 +24,9 @@ const {width: screenWidth, height: screenHeight} = Dimensions.get('screen');
 const OwnerPropView = ({props, navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [propty, setPropty] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [conform, setConform]=useState(false);
+  const hideDialog = () => setVisible(false);
   const oid = route.params.id;
   console.log(oid);
 
@@ -56,6 +60,7 @@ const OwnerPropView = ({props, navigation, route}) => {
 
   const ItemView = ({item}) => {
     const img = item.images.url;
+    
     const editPlace = id => {
       try {
         fetch(`${configdata.baseURL}/properties/updateproperty/${a}`, {
@@ -73,6 +78,26 @@ const OwnerPropView = ({props, navigation, route}) => {
           });
       } catch (error) {}
     };
+
+    const conformDelete =()=>{
+      setVisible(true)
+      return(
+        <Portal>
+        <Dialog visible={visible} onDismiss={hideDialog}>
+          <Dialog.Title>Conform Delete</Dialog.Title>
+          <Dialog.Actions>
+            <Button
+              onPress={() => {
+                setConform(true)
+                hideDialog();
+              }}>
+              Ok
+            </Button>
+          </Dialog.Actions>
+        </Dialog>
+      </Portal>
+      )
+    }
 
     const deletePlace = id => {
       const a = id;
@@ -117,7 +142,7 @@ const OwnerPropView = ({props, navigation, route}) => {
             <View style={styles.socialBarSection}>
               <Text
                 style={styles.socialBarLabel}
-                onPress={() => deletePlace(item._id)}>
+                onPress={() => conformDelete(item._id)}>
                 <Icon name="delete" size={25} color="#202020" /> Delete
               </Text>
             </View>

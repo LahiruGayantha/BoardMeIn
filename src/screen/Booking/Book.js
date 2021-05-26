@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import configdata from '../../config/config';
-
+import Loader from '../../components/Loader';
 const payHere = require('../../../assest/images/payHerelogo.png');
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 
@@ -24,7 +24,9 @@ const Book = ({route, navigation}) => {
   const type = route.params.type;
   const location = route.params.location;
   const address = route.params.address;
+
   const getDetails = () => {
+    setLoading(true);
     try {
       const abortController = new AbortController();
       const signal = AbortController.signal;
@@ -33,53 +35,59 @@ const Book = ({route, navigation}) => {
         .then(response => response.json())
         .then(responseJson => {
           setOwner(responseJson.data);
+          setLoading(false);
         });
       return function cleanup() {
         abortController.abort();
       };
     } catch (error) {
       console.log(error);
+      setLoading(false);
     }
   };
 
   useEffect(() => getDetails(), []);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Booking details</Text>
-      <View style={styles.line} />
-      <View style={styles.row}>
-        <Text style={styles.subtitle}>Place Owner</Text>
-        <View style={styles.valuecontainer}>
-          <Text style={styles.value}>
-            {owner.firstname} {owner.lastname}
-          </Text>
+    <>
+      <Loader loading={loading} />
+      <View style={styles.container}>
+        <Text style={styles.title}>Booking details</Text>
+        <View style={styles.line} />
+        <View style={styles.row}>
+          <Text style={styles.subtitle}>Place Owner</Text>
+          <View style={styles.valuecontainer}>
+            <Text style={styles.value}>
+              {owner.firstname} {owner.lastname}
+            </Text>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.subtitle}>Place type</Text>
+          <View style={styles.valuecontainer}>
+            <Text style={styles.value}>{type}</Text>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.subtitle}>Place address</Text>
+          <View style={styles.valuecontainer}>
+            <Text style={styles.value}>{address}</Text>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <Text style={styles.subtitle}>Payment</Text>
+          <View style={styles.valuecontainer}>
+            <Text style={styles.value}>{price}</Text>
+          </View>
+        </View>
+        <View style={styles.row}>
+          <TouchableOpacity
+            onPress={() => Alert.alert('Connect to the payment gateway')}>
+            <Image style={styles.image} source={payHere} />
+          </TouchableOpacity>
         </View>
       </View>
-      <View style={styles.row}>
-        <Text style={styles.subtitle}>Place type</Text>
-        <View style={styles.valuecontainer}>
-          <Text style={styles.value}>{type}</Text>
-        </View>
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.subtitle}>Place address</Text>
-        <View style={styles.valuecontainer}>
-          <Text style={styles.value}>{address}</Text>
-        </View>
-      </View>
-      <View style={styles.row}>
-        <Text style={styles.subtitle}>Payment</Text>
-        <View style={styles.valuecontainer}>
-          <Text style={styles.value}>{price}</Text>
-        </View>
-      </View>
-      <View style={styles.row}>
-        <TouchableOpacity onPress={payHere}>
-          <Image style={styles.image} source={payHere} />
-        </TouchableOpacity>
-      </View>
-    </View>
+    </>
   );
 };
 

@@ -3,7 +3,7 @@ import {View, StyleSheet, Dimensions, SafeAreaView, Alert} from 'react-native';
 import Profile from '../../components/Profile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../components/Loader';
-
+import configdata from '../../config/config';
 import OwnerPropView from './OwnerPropView';
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 
@@ -28,8 +28,10 @@ const OwnerProfile = ({navigation}) => {
     setLoading(true);
     try {
       const jsonValue = await AsyncStorage.getItem('@ouser');
-      const result = JSON.parse(jsonValue);
-      console.log(result.email);
+      //const result = JSON.parse(jsonValue);
+      const id = jsonValue
+      console.log(id);
+      fetch(`${configdata.baseURL}/auth/ownerlogin`)
       setLoading(false);
       setOUser({
         ...ouser,

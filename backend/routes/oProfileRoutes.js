@@ -3,20 +3,18 @@ const router = express.Router();
 
 const {
   getOwnerById,
-  updateOwner,
   updateOwnerPic,
   updateOwnerUName,
   updateOwnerBio,
   updateOwnerLocation,
   updatePassword,
-} = require('../controllers/ownerProfile');
+} = require('../controllers/ownerProfileCtrl');
 
-router.get("/:id", getOwnerById);
-router.put("/update/:id",updateOwner);
-router.put("/updatepic", updateOwnerPic);
-router.put("/username", updateOwnerUName);
-router.put("/bio",updateOwnerBio);
-router.put("/location",updateOwnerLocation);
-router.put("/password",updatePassword);
+router.get("/ownerprofile/:id", getOwnerById);
+router.put("/ownerupdatepic", updateOwnerPic);
+router.put("/ownerusername", updateOwnerUName);
+router.put("/ownerbio",updateOwnerBio);
+router.put("/ownerlocation",updateOwnerLocation);
+router.put("/ownerpassword",updatePassword);
 
 module.exports = router;

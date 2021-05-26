@@ -29,7 +29,7 @@ const OwnerSignIn = ({navigation}) => {
 
   const storeData = async value => {
     try {
-      const jsonValue = JSON.stringify(value);
+      const jsonValue = JSON.stringify(value._id);
       await AsyncStorage.setItem('@ouser', jsonValue);
     } catch (e) {
       console.log('Error with storing data');
