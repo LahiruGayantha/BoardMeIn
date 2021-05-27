@@ -30,6 +30,7 @@ const Inquiry = () => {
       Alert.alert('You must describe your inquiry');
       return;
     }
+    
   };
   return (
     <View style={styles.container}>

@@ -7,7 +7,7 @@ const gprofileRoutes = require('./routes/gProfileRoutes');
 const oprofileRoutes = require('./routes/oProfileRoutes');
 const propertyRoutes = require('./routes/pRoutes');
 const bookingRoutes = require('./routes/bookRoutes');
-//const inquiryRoutes = require("./routes/inquiry");
+const inquiryRoutes = require("./routes/inquiryRoutes");
 const dotenv = require('dotenv');
 dotenv.config();
 const fileUpload = require('express-fileupload');
@@ -24,7 +24,7 @@ app.use('/api/profile', gprofileRoutes);
 app.use('/api/ownerprofile', oprofileRoutes);
 app.use('/api/properties', propertyRoutes);
 app.use('/api/property', bookingRoutes);
-//app.use("/user", inquiryRoutes);
+app.use("/user", inquiryRoutes);
 app.use('/api', require('./routes/upload'));
 
 connectDB();

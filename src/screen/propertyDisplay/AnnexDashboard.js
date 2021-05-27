@@ -21,7 +21,7 @@ import Moredetail from './Moredetail';
 const AnnexDashboard = ({props, navigation}) => {
   const behavior = Platform.OS === 'ios' ? 'padding' : undefined;
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [data, setData] = useState([]);
   const [filterdata, setFilterdata] = useState([]);
@@ -44,6 +44,7 @@ const AnnexDashboard = ({props, navigation}) => {
       })
       .catch(error => {
         console.error(error);
+        setLoading(false);
       });
     return function cleanup() {
       abortController.abort();
@@ -123,18 +124,31 @@ const AnnexDashboard = ({props, navigation}) => {
   };
 
   const moreDetail = item => {
-    //Function for click on an item
     navigation.navigate('Moredetail', {
-      type: item.ptype,
+      pid: item._id,
+      type: item.category,
       price: item.price,
       location: item.location,
-      discription: item.discription,
+      description: item.description,
+      pimg: item.images.url,
+      address: item.address,
     });
   };
 
-  const book = () => {
-    //Function for click on an item
-    //navigation.navigate('Dashboard');
+  const book = (item) => {
+    navigation.navigate('Property', {
+      screen: 'Book',
+      params: {
+        pid: item._id,
+        type: item.category,
+        price: item.price,
+        location: item.location,
+        description: item.description,
+        pimg: item.images.url,
+        address: item.address,
+        oid: item.owner_id,
+      },
+    });
   };
 
   return (

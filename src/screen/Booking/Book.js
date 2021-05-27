@@ -25,7 +25,7 @@ const Book = ({route, navigation}) => {
   const location = route.params.location;
   const address = route.params.address;
 
-   const getDetails = () => {
+  const getDetails = () => {
     setLoading(true);
     try {
       const abortController = new AbortController();
@@ -36,6 +36,9 @@ const Book = ({route, navigation}) => {
         .then(responseJson => {
           setOwner(responseJson.data);
           setLoading(false);
+        })
+        .catch(error => {
+          console.error(error);
         });
       return function cleanup() {
         abortController.abort();
@@ -46,7 +49,7 @@ const Book = ({route, navigation}) => {
     }
   };
 
-  useEffect(() => getDetails(), []); 
+  useEffect(() => getDetails(), []);
 
   return (
     <>
@@ -83,7 +86,6 @@ const Book = ({route, navigation}) => {
         <View style={styles.row}>
           <TouchableOpacity
             onPress={() => Alert.alert('Connect to the payment gateway')}>
-
             <Image style={styles.image} source={payHere} />
           </TouchableOpacity>
         </View>

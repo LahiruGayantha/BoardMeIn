@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const inquiryServices = require("../controllers/inquiry");
+const inquiryServices = require("../controllers/inquiryCtrl");
 
 //to create
 router.post("/inquiry", async (req, res) => {

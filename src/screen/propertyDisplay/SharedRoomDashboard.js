@@ -18,7 +18,7 @@ import configdata from '../../config/config';
 import Moredetail from './Moredetail';
 
 const SharedRoomDashboard = ({props, navigation}) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [data, setData] = useState([]);
   const [filterdata, setFilterdata] = useState([]);
@@ -114,7 +114,6 @@ const SharedRoomDashboard = ({props, navigation}) => {
   };
 
   const moreDetail = item => {
-    //Function for click on an item
     navigation.navigate('Moredetail', {
       pid: item._id,
       type: item.category,
@@ -122,13 +121,24 @@ const SharedRoomDashboard = ({props, navigation}) => {
       location: item.location,
       description: item.description,
       pimg: item.images.url,
-      address:item.address
+      address: item.address,
     });
   };
 
-  const book = () => {
-    //Function for click on an item
-    navigation.pop();
+  const book = item => {
+    navigation.navigate('Property', {
+      screen: 'Book',
+      params: {
+        pid: item._id,
+        type: item.category,
+        price: item.price,
+        location: item.location,
+        description: item.description,
+        pimg: item.images.url,
+        address: item.address,
+        oid: item.owner_id,
+      },
+    });
   };
 
   return (
