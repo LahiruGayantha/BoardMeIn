@@ -86,7 +86,10 @@ const OwnerProfile = ({navigation}) => {
               })
             }
             onPress3={() =>
-              navigation.navigate('Owner', {screen: 'Inquiry'})
+              navigation.navigate('AInquiry', {
+                screen: 'Inquiry',
+                params: {_id: ouser._id},
+              })
             }
             iname="home-city"
           />

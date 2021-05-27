@@ -119,7 +119,7 @@ const SingleRoomDashboard = ({props, navigation}) => {
   const moreDetail = item => {
     navigation.navigate('Moredetail', {
       pid: item._id,
-      type: item.category,
+      type: item.categoryType,
       price: item.price,
       location: item.location,
       description: item.description,
@@ -133,7 +133,7 @@ const SingleRoomDashboard = ({props, navigation}) => {
       screen: 'Book',
       params: {
         pid: item._id,
-        type: item.category,
+        type: item.categoryType,
         price: item.price,
         location: item.location,
         description: item.description,

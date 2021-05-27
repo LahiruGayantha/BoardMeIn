@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {StyleSheet, View, TextInput, Button, Text, Alert} from 'react-native';
 import RadioForm, {
   RadioButton,
@@ -8,8 +8,9 @@ import RadioForm, {
 import Loader from '../../components/Loader';
 import configdata from '../../config/config';
 
-const Inquiry = () => {
-  const [userId, setUserId] = useState('');
+const Inquiry = ({route}) => {
+  const userId = route.params._id;
+  const [loading, setLoading] = useState(false);
   const [reason, setReason] = useState('');
   const [value, setValue] = useState('');
   const [inquiryType, setInqueryType] = useState([
@@ -30,8 +31,30 @@ const Inquiry = () => {
       Alert.alert('You must describe your inquiry');
       return;
     }
-    
+    fetch(`http://192.168.43.200:5000/user/inquiry`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userid: userId,
+        inquiryType: value,
+        reason: reason,
+      }),
+    })
+      .then(res => res.json())
+      .then(responseJson => {
+        console.log(responseJson);
+        setReason('');
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error(error);
+        setLoading(false);
+      });
   };
+
   return (
     <View style={styles.container}>
       <Text style={styles.textdec}>Inquiry Type</Text>
@@ -49,7 +72,7 @@ const Inquiry = () => {
         placeholder="Enter Reason"
         multiline
         numberOfLines={4}
-        onPress={reason => setReason(reason)}
+        onChangeText={reason => setReason(reason)}
       />
       <Button
         style={styles.buttondec}
@@ -67,6 +90,7 @@ const styles = StyleSheet.create({
     margin: 0,
     marginTop: 20,
     marginLeft: 20,
+    marginBottom: 20,
   },
   container: {
     margin: 20,

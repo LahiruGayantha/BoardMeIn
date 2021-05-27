@@ -5,7 +5,7 @@ export const drawerItemsMain = [
     key: 'Home',
     title: 'Home',
     icon: 'home-outline',
-    route: {nav: 'Guest', routeName: 'Property', title: 'Home'},
+    route: {nav: 'Property', routeName: 'DisplayCategory', title: 'Home'},
   },
   {
     key: 'Profile',

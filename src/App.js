@@ -88,9 +88,9 @@ const GProfile = ({navigation}) => {
         component={GEditProfile.component}
       />
       <GPStack.Screen name="GuestProfile" component={GuestProfile} />
-      <GStack.Screen
-        name={Inquiry.name}
-        component={Inquiry.component}
+      <GPStack.Screen
+        name="AInquiry"
+        component={AInquiry}
         options={{title: 'Inquiry'}}
       />
     </GPStack.Navigator>
@@ -142,7 +142,9 @@ const ChatA = () => {
 
 const AInquiry = () => {
   return (
-    <IStack.Navigator>
+    <IStack.Navigator
+      initialRouteName="Inquiry"
+      screenOptions={{headerShown: false}}>
       <IStack.Screen name={Inquiry.name} component={Inquiry.component} />
     </IStack.Navigator>
   );
@@ -201,11 +203,6 @@ const Owner = ({navigation}) => {
         name={AddPlace.name}
         component={AddPlace.component}
         options={{title: 'Add new place'}}
-      />
-      <OStack.Screen
-        name={Inquiry.name}
-        component={Inquiry.component}
-        options={{title: 'Inquiry'}}
       />
     </OStack.Navigator>
   );

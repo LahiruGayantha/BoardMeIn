@@ -9,7 +9,7 @@ exports.addProduct = async (req, res) => {
       description,
       content,
       images,
-      category,
+      categoryType,
       address,
       location,
       owner_id
@@ -23,7 +23,7 @@ exports.addProduct = async (req, res) => {
       description,
       content,
       images,
-      category,
+      categoryType,
       address,
       location,
       owner_id
@@ -142,7 +142,7 @@ exports.getProducts = async (req, res) => {
 };
 
 exports.getSinglerooms = async (req, res) => {
-  await Products.find({category: {$eq: 'SingleRoom'}}, (err, products) => {
+  await Products.find({categoryType: {$eq: 'SingleRoom'}}, (err, products) => {
     if (err) {
       return res.status(400).json({error: err});
     }
@@ -154,7 +154,7 @@ exports.getSinglerooms = async (req, res) => {
 };
 
 exports.getSharedrooms = async (req, res) => {
-  await Products.find({category: {$eq: 'SharedRoom'}}, (err, products) => {
+  await Products.find({categoryType: {$eq: 'SharedRoom'}}, (err, products) => {
     if (err) {
       return res.status(400).json({error: err});
     }
@@ -168,7 +168,7 @@ exports.getSharedrooms = async (req, res) => {
 };
 
 exports.getHouses = async (req, res) => {
-  await Products.find({category: {$eq: 'Home'}}, (err, products) => {
+  await Products.find({categoryType: {$eq: 'Home'}}, (err, products) => {
     if (err) {
       return res.status(400).json({error: err});
     }
@@ -182,7 +182,7 @@ exports.getHouses = async (req, res) => {
 };
 
 exports.getAnnexs = async (req, res) => {
-  await Products.find({category: {$eq: 'Annex'}}, (err, products) => {
+  await Products.find({categoryType: {$eq: 'Annex'}}, (err, products) => {
     if (err) {
       return res.status(400).json({error: err});
     }
@@ -196,7 +196,7 @@ exports.getAnnexs = async (req, res) => {
 };
 
 exports.getSinRoomCount = async (req, res) => {
-  await Products.count({category:  {$eq: 'SingleRoom'}}, function (err, sinrcount) {
+  await Products.count({categoryType:  {$eq: 'SingleRoom'}}, function (err, sinrcount) {
     if (err) {
       return res.status(400).json({error: err});
     } else {
@@ -206,7 +206,7 @@ exports.getSinRoomCount = async (req, res) => {
 };
 
 exports.getShrRoomCount = async (req, res) => {
-  await Products.count({category: 'SharedRoom'}, function (err, shrrcount) {
+  await Products.count({categoryType: 'SharedRoom'}, function (err, shrrcount) {
     if (err) {
       return res.status(400).json({error: err});
     } else {
@@ -216,7 +216,7 @@ exports.getShrRoomCount = async (req, res) => {
 };
 
 exports.getHouseCount = async (req, res) => {
-  await Products.count({category: 'Home'}, function (err, housecount) {
+  await Products.count({categoryType: 'Home'}, function (err, housecount) {
     if (err) {
       return res.status(400).json({error: err});
     } else {
@@ -226,7 +226,7 @@ exports.getHouseCount = async (req, res) => {
 };
 
 exports.getAnxCount = async (req, res) => {
-  await Products.count({category: 'Annex'}, function (err, annexcount) {
+  await Products.count({categoryType: 'Annex'}, function (err, annexcount) {
     if (err) {
       return res.status(400).json({error: err});
     } else {

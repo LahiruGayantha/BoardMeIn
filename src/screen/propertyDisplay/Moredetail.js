@@ -22,7 +22,7 @@ const Moredetail = ({route, navigation}) => {
   const location = route.params.location;
   const discription = route.params.description;
   const img = route.params.pimg;
-  const address= route.params.address;
+  const address = route.params.address;
   const [d, setD] = useState([]);
 
   const setProduct = () => {
@@ -42,7 +42,6 @@ const Moredetail = ({route, navigation}) => {
     };
   };
 
-  useEffect(() => setProduct(), []);
   const book = () => {
     navigation.navigate('Property', {
       screen: 'Book',
@@ -50,12 +49,15 @@ const Moredetail = ({route, navigation}) => {
         oid: d.owner_id,
         img: d.images.url,
         price: d.price,
-        type: d.category,
+        type: d.categoryType,
         location: d.location,
-        address:d.address
+        address: d.address,
       },
     });
   };
+
+  useEffect(() => setProduct(), []);
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -96,12 +98,6 @@ const Moredetail = ({route, navigation}) => {
           <Text style={styles.ButtonText}>
             Comment & Review{' '}
             <Icon name="comment-edit-outline" size={25} color="#fff" />
-          </Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.Button, styles.btnclr4]}>
-          <Text style={styles.ButtonText}>
-            Report to Admin{' '}
-            <Icon name="emoticon-neutral-outline" size={25} color="#fff" />
           </Text>
         </TouchableOpacity>
         <TouchableOpacity

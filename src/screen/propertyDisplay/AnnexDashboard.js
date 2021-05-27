@@ -32,14 +32,13 @@ const AnnexDashboard = ({props, navigation}) => {
     const abortController = new AbortController();
     const signal = AbortController.signal;
 
-    console.log('getData');
     setLoading(true);
     fetch(`${configdata.baseURL}/properties/annexes`, {signal: signal})
       .then(response => response.json())
       .then(responseJson => {
-        console.log(responseJson.products);
-        setData(responseJson.products);
-        setFilterdata(responseJson.products);
+        console.log(responseJson.data);
+        setData(responseJson.data);
+        setFilterdata(responseJson.data);
         setLoading(false);
       })
       .catch(error => {
@@ -75,10 +74,11 @@ const AnnexDashboard = ({props, navigation}) => {
   };
 
   const ItemView = ({item}) => {
+    const img = item.images.url
     return (
       // Flat List Item
       <View style={styles.card}>
-        <Image style={styles.cardImage} />
+        <Image style={styles.cardImage} source={{uri: img}}/>
         <View style={styles.cardHeader}>
           <View>
             <Text style={styles.description}>{item.location}</Text>
@@ -126,7 +126,7 @@ const AnnexDashboard = ({props, navigation}) => {
   const moreDetail = item => {
     navigation.navigate('Moredetail', {
       pid: item._id,
-      type: item.category,
+      type: item.categoryType,
       price: item.price,
       location: item.location,
       description: item.description,
@@ -140,7 +140,7 @@ const AnnexDashboard = ({props, navigation}) => {
       screen: 'Book',
       params: {
         pid: item._id,
-        type: item.category,
+        type: item.categoryType,
         price: item.price,
         location: item.location,
         description: item.description,
@@ -219,9 +219,9 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 1,
     backgroundColor: '#EEEEEE',
   },
-  cardImage: {
+   cardImage: {
     flex: 1,
-    height: 150,
+    height: 200,
     width: null,
   },
 

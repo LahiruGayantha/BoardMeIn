@@ -77,6 +77,12 @@ const GuestProfile = ({navigation}) => {
                 },
               })
             }
+            onPress3={() =>
+              navigation.navigate('AInquiry', {
+                screen: 'Inquiry',
+                params: {_id: guser._id},
+              })
+            }
           />
         </View>
       </SafeAreaView>

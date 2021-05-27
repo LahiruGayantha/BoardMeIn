@@ -27,9 +27,8 @@ const productSchema = new mongoose.Schema(
     location:{
         type:String
     },
-    category: {
+    categoryType: {
       type: String,
-      required: true,
       enum: ['SingleRoom', 'SharedRoom', 'Home', 'Annex'],
     },
     address: {
@@ -46,7 +45,6 @@ const productSchema = new mongoose.Schema(
     owner_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Owner',
-      required: true,
     },
   },
   {
