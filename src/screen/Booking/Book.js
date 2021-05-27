@@ -16,7 +16,7 @@ const payHere = require('../../../assest/images/payHerelogo.png');
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 
 const Book = ({route, navigation}) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [owner, setOwner] = useState([]);
   const oid = route.params.oid;
   const img = route.params.img;
@@ -25,13 +25,13 @@ const Book = ({route, navigation}) => {
   const location = route.params.location;
   const address = route.params.address;
 
-  const getDetails = () => {
+   const getDetails = () => {
     setLoading(true);
     try {
       const abortController = new AbortController();
       const signal = AbortController.signal;
       console.log(oid);
-      fetch(`${configdata.baseURL}/oprofile/${oid}`, {signal: signal})
+      fetch(`${configdata.baseURL}/ownerprofile/${oid}`, {signal: signal})
         .then(response => response.json())
         .then(responseJson => {
           setOwner(responseJson.data);
@@ -46,7 +46,7 @@ const Book = ({route, navigation}) => {
     }
   };
 
-  useEffect(() => getDetails(), []);
+  useEffect(() => getDetails(), []); 
 
   return (
     <>
@@ -83,6 +83,7 @@ const Book = ({route, navigation}) => {
         <View style={styles.row}>
           <TouchableOpacity
             onPress={() => Alert.alert('Connect to the payment gateway')}>
+
             <Image style={styles.image} source={payHere} />
           </TouchableOpacity>
         </View>

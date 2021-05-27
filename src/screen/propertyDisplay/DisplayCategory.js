@@ -26,7 +26,7 @@ import Category from '../../components/Category';
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 
 const DisplayCategory = ({navigation}) => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [srcount, setSrcount] = useState();
   const [shcount, setShcount] = useState();
   const [anxcount, setAnxcount] = useState();
@@ -46,6 +46,7 @@ const DisplayCategory = ({navigation}) => {
       })
       .catch(error => {
         console.error(error);
+        setLoading(false);
       });
     return function cleanup() {
       abortController.abort();
@@ -62,6 +63,7 @@ const DisplayCategory = ({navigation}) => {
       })
       .catch(error => {
         console.error(error);
+        setLoading(false);
       });
     return function cleanup() {
       abortController.abort();
@@ -78,6 +80,7 @@ const DisplayCategory = ({navigation}) => {
       })
       .catch(error => {
         console.error(error);
+        setLoading(false);
       });
     return function cleanup() {
       abortController.abort();
@@ -114,7 +117,10 @@ const DisplayCategory = ({navigation}) => {
   };
 
   useEffect(() => {
-    getSinCount(), getShrCount(), getAnxCount(), getHomeCount();
+    getSinCount();
+    getShrCount();
+    getAnxCount();
+    getHomeCount();
   }, []);
 
   return (

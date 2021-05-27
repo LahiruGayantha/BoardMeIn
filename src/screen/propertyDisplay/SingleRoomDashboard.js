@@ -20,7 +20,7 @@ import Moredetail from './Moredetail';
 const SingleRoomDashboard = ({props, navigation}) => {
   const behavior = Platform.OS === 'ios' ? 'padding' : undefined;
 
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState('');
   const [data, setData] = useState([]);
   const [filterdata, setFilterdata] = useState([]);
@@ -42,6 +42,7 @@ const SingleRoomDashboard = ({props, navigation}) => {
       })
       .catch(error => {
         console.error(error);
+        setLoading(false);
       });
 
     return function cleanup() {
