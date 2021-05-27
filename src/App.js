@@ -43,6 +43,8 @@ import Chat from './screen/Chat/ChatUI';
 
 import AddComment from './screen/Feedback/AddComment';
 
+import Inquiry from './screen/Inquery/InqueryForm';
+
 import {drawerItemsMain} from './drawer/DrawerItemsMain';
 import CustomDrawerContent from './drawer/CustomDrawerContent.js';
 import CustomHeader from './drawer/CustomHeader';
@@ -86,6 +88,11 @@ const GProfile = ({navigation}) => {
         component={GEditProfile.component}
       />
       <GPStack.Screen name="GuestProfile" component={GuestProfile} />
+      <GStack.Screen
+        name={Inquiry.name}
+        component={Inquiry.component}
+        options={{title: 'Inquiry'}}
+      />
     </GPStack.Navigator>
   );
 };
@@ -133,10 +140,10 @@ const ChatA = () => {
   );
 };
 
-const Inquery = () => {
+const AInquiry = () => {
   return (
     <IStack.Navigator>
-      <IStack.Screen name={Chat.name} component={Chat.component} />
+      <IStack.Screen name={Inquiry.name} component={Inquiry.component} />
     </IStack.Navigator>
   );
 };
@@ -194,6 +201,11 @@ const Owner = ({navigation}) => {
         name={AddPlace.name}
         component={AddPlace.component}
         options={{title: 'Add new place'}}
+      />
+      <OStack.Screen
+        name={Inquiry.name}
+        component={Inquiry.component}
+        options={{title: 'Inquiry'}}
       />
     </OStack.Navigator>
   );

@@ -10,11 +10,11 @@ const {
   updatePassword,
 } = require('../controllers/ownerProfileCtrl');
 
-router.get("/ownerprofile/:id", getOwnerById);
-router.put("/ownerupdatepic", updateOwnerPic);
-router.put("/ownerusername", updateOwnerUName);
-router.put("/ownerbio",updateOwnerBio);
-router.put("/ownerlocation",updateOwnerLocation);
-router.put("/ownerpassword",updatePassword);
+router.get("/:id", getOwnerById);
+router.put("/ownerupdatepic/:id", updateOwnerPic);
+router.put("/ownerusername/:id", updateOwnerUName);
+router.put("/ownerbio/:id",updateOwnerBio);
+router.put("/ownerlocation/:id",updateOwnerLocation);
+router.put("/ownerpassword/:id",updatePassword);
 
 module.exports = router;

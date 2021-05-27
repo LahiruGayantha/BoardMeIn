@@ -7,6 +7,7 @@ import {
   Text,
   ScrollView,
   Image,
+  Alert,
   TouchableOpacity,
   TextInput,
   StatusBar,
@@ -18,69 +19,136 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Profilepic from '../../../assest/images/profile.png';
 import Loader from '../../components/Loader';
 import configdata from '../../config/config';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import * as ImagePicker from 'react-native-image-picker';
 
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 
-const GEditProfile = ({navigation}) => {
-  const [id, setId] = useState('');
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [pic, setPic] = useState('');
-  const [location, setLocation] = useState('');
-  const [bio, setBio] = useState('');
+const GEditProfile = ({navigation, route}) => {
+  const [firstname, setFirstname] = useState(route.params.firstname);
+  const [lastname, setLastname] = useState(route.params.lastname);
+  const [pic, setPic] = useState(route.params.pic);
+  const [location, setLocation] = useState(route.params.location);
+  const [bio, setBio] = useState(route.params.bio);
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
+  const id = route.params._id;
+  const email = route.params.email;
 
-  const fetchData = async () => {
-    try {
-      setLoading(true);
-      const jsonValue = await AsyncStorage.getItem('@guser');
-      const result = JSON.parse(jsonValue);
-      console.log(result);
-      setLoading(false);
-      setFirstname(result.firstname);
-      setLastname(result.lastname);
-      setLocation(result.location);
-      setBio(result.bio);
-      setEmail(result.email);
-      setPic(result.pic);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const handleEdit = () => {
     setLoading(true);
-    fetch(`${configdata.baseURL}/gprofile/update/${id}`, {
-      method: 'PUT',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstname: firstname,
-        lastname: lastname,
-        pic: pic,
-        location: location,
-        bio: bio,
-      }),
-    })
-      .then(response => response.json())
-      .then(responseJson => {
-        setLoading(false);
-        console.log(responseJson);
-      })
-      .catch(error => {
-        setLoading(false);
-        console.error(error);
+    if (
+      firstname === route.params.firstname &&
+      lastname === route.params.lastname &&
+      location === route.params.location &&
+      bio === route.params.bio &&
+      pic === route.params.pic
+    ) {
+      Alert.alert('You did not change details to update');
+      setLoading(false);
+      return;
+    } else {
+      fetch(`${configdata.baseURL}/profile/username/${id}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          firstname: firstname,
+          lastname: lastname,
+        }),
       });
+      fetch(`${configdata.baseURL}/profile/location/${id}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          location: location,
+        }),
+      });
+      fetch(`${configdata.baseURL}/profile/bio/${id}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          bio: bio,
+        }),
+      });
+      fetch(`${configdata.baseURL}/profile/updatepic/${id}`, {
+        method: 'PUT',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          pic: pic,
+        }),
+      })
+        .then(response => response.json())
+        .then(responseJson => {
+          setLoading(false);
+          console.log('Updated successfully');
+          Alert.alert('Updated successfully');
+        })
+        .catch(error => {
+          setLoading(false);
+          console.error(error);
+        });
+        setLoading(false)
+    }
   };
-  useEffect(() => fetchData(), []);
+
+  function selectImage() {
+    let options = {
+      title: 'You can choose one image',
+      maxWidth: 256,
+      maxHeight: 256,
+      noData: true,
+      mediaType: 'photo',
+      storageOptions: {
+        skipBackup: true,
+      },
+    };
+
+    ImagePicker.launchImageLibrary(options, response => {
+      if (response.didCancel) {
+        console.log('User cancelled photo picker');
+        Alert.alert('You did not select any image');
+      } else if (response.error) {
+        console.log('ImagePicker Error: ', response.error);
+      } else if (response.customButton) {
+        console.log('User tapped custom button: ', response.customButton);
+      } else {
+        let source = {uri: response.uri};
+        setPic(response.uri);
+      }
+    });
+  }
   return (
     <SafeAreaView style={{flex: 1}}>
       <>
         <Loader loading={loading} />
         <ScrollView style={styles.container}>
           <View style={styles.form}>
-            <Image style={styles.avatar} source={pic ? {uri: pic} : null} />
+            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              <Image style={styles.avatar} source={pic ? {uri: pic} : null} />
+              <TouchableOpacity onPress={selectImage}>
+                <Icon
+                  name="plus"
+                  size={45}
+                  color="#000"
+                  style={{
+                    borderWidth: 1,
+                    borderColor: '#232323',
+                    marginLeft: 5,
+                  }}
+                />
+              </TouchableOpacity>
+            </View>
             <StatusBar backgroundColor="#9df9ef" barStyle="light-content" />
             <KeyboardAvoidingView>
               <Text style={styles.inputLabel}>First Name</Text>

@@ -8,20 +8,17 @@ const equals = require("validator/lib/equals");
 exports.getGuestById = async (req, res) => {
   await Guest.findById({_id: req.params.id}, (err, guest) => {
     if (err) {
-      return res.status(400).json({success: false, error: err});
+      return res.status(400).json({error: err});
     }
 
-    if (!notice) {
-      return res.status(404).json({success: false, error: `User not found`});
-    }
-    return res.status(200).json({success: true, data: guest});
+    return res.status(200).json({data: guest});
   }).catch(err => console.log(err));
 };
 
 
 exports.updateGuestPic = async (req, res) => {
   await Guest.findByIdAndUpdate(
-    req.user._id,
+    {_id: req.params.id},
     {$set: {pic: req.body.pic}},
     {new: true},
   ).exec((err, result) => {
@@ -40,7 +37,7 @@ exports.updateGuestUName = async (req, res) => {
     return res.status(422).json();
   } else {
     Guest.findByIdAndUpdate(
-      req.user._id,
+     {_id: req.params.id},
       {$set: {firstname: req.body.firstname, lastname: req.body.lastname}},
 
       {
@@ -63,7 +60,7 @@ exports.updateGuestBio = async (req, res) => {
     return res.status(422).json();
   }
   Guest.findByIdAndUpdate(
-    req.user._id,
+    {_id: req.params.id},
     {$set: {bio: req.body.bio}},
 
     {
@@ -85,7 +82,7 @@ exports.updateGuestLocation = async (req, res) => {
     return res.status(422).json();
   }
   Guest.findByIdAndUpdate(
-    req.user._id,
+    {_id: req.params.id},
     {$set: {location: req.body.location}},
 
     {
@@ -114,7 +111,7 @@ exports.updatePassword = async (req, res) => {
   const salt = await bcrypt.genSalt(10);
   newPassword.password = await bcrypt.hash(password, salt);
   await Guest.findByIdAndUpdate(
-    req.user._id,
+    {_id: req.params.id},
     {$set: {password: newPassword.password}},
 
     {

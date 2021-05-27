@@ -3,6 +3,8 @@ import {View, StyleSheet, Dimensions, SafeAreaView} from 'react-native';
 import Profile from '../../components/Profile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Loader from '../../components/Loader';
+import configdata from '../../config/config';
+
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 
 const GuestProfile = ({navigation}) => {
@@ -11,34 +13,42 @@ const GuestProfile = ({navigation}) => {
     lastname: '',
     email: '',
     _id: '',
-    pic:'',
-    location:'',
-    bio:''
+    pic: '',
+    location: '',
+    bio: '',
   });
   const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
     setLoading(true);
-    try {
-      const jsonValue = await AsyncStorage.getItem('@guser');
-      const result = JSON.parse(jsonValue);
-      console.log(result);
-      setLoading(false);
-      setGUser({
-        ...guser,
-        firstname: result.firstname,
-        lastname: result.lastname,
-        email: result.email,
-        _id: result._id,
-        pic: result.pic,
-        location: result.location,
-        bio: result.bio,
+    const id = await AsyncStorage.getItem('@guser');
+    fetch(`${configdata.baseURL}/profile/${id}`)
+      .then(response => response.json())
+      .then(responseJson => {
+        setLoading(false);
+        const data = responseJson.data;
+        setGUser({
+          ...guser,
+          firstname: data.firstname,
+          lastname: data.lastname,
+          email: data.email,
+          _id: data._id,
+          pic: data.pic,
+          location: data.location,
+          bio: data.bio,
+        });
+      })
+      .catch(error => {
+        setLoading(false);
+        console.error(error);
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
-  useEffect(() => fetchData(), []);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchData();
+    });
+    return unsubscribe;
+  }, [navigation]);
   return (
     <>
       <Loader loading={loading} />
@@ -53,7 +63,20 @@ const GuestProfile = ({navigation}) => {
             img={guser.pic}
             bio={guser.bio}
             location={guser.location}
-            nav={()=> navigation.navigate('GProfile', {screen: 'GEditProfile'})}
+            nav={() =>
+              navigation.navigate('GProfile', {
+                screen: 'GEditProfile',
+                params: {
+                  firstname: guser.firstname,
+                  lastname: guser.lastname,
+                  email: guser.email,
+                  _id: guser._id,
+                  pic: guser.pic,
+                  location: guser.location,
+                  bio: guser.bio,
+                },
+              })
+            }
           />
         </View>
       </SafeAreaView>

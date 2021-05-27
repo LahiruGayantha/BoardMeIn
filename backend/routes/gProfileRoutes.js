@@ -10,10 +10,10 @@ const {
 } = require('../controllers/guestProfileCtrl');
 
 router.get("/:id", getGuestById);
-router.put("/updatepic", updateGuestPic);
-router.put("/username", updateGuestUName);
-router.put("/bio",updateGuestBio);
-router.put("/location",updateGuestLocation);
-router.put("/password",updatePassword);
+router.put("/updatepic/:id", updateGuestPic);
+router.put("/username/:id", updateGuestUName);
+router.put("/bio/:id",updateGuestBio);
+router.put("/location/:id",updateGuestLocation);
+router.put("/password/:id",updatePassword);
 
 module.exports = router;

@@ -33,15 +33,6 @@ const GuestSignIn = ({navigation}) => {
   const [loading, setLoading] = useState(false);
   const [errorMsg, setErrorMsg] = useState(false);
 
-  const storeData = async value => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem('@guser', jsonValue);
-    } catch (e) {
-      console.log('Error with storing data');
-    }
-  };
-
   const handleSubmit = () => {
     setErrorMsg('');
     if (!email) {
@@ -70,8 +61,8 @@ const GuestSignIn = ({navigation}) => {
         setLoading(false);
         console.log(responseJson);
         if (responseJson.success == true) {
-          storeData(responseJson.user);
           AsyncStorage.setItem('role', responseJson.user.role.toString());
+          AsyncStorage.setItem('@guser', responseJson.user._id)
           console.log(responseJson.user.email);
           navigation.navigate('Guest', { screen: 'Property' });
         } else {

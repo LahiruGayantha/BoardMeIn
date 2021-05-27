@@ -25,12 +25,17 @@ const OwnerPropView = ({props, navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [propty, setPropty] = useState([]);
   const [visible, setVisible] = useState(false);
-  const [conform, setConform]=useState(false);
+  const [conform, setConform] = useState(false);
   const hideDialog = () => setVisible(false);
   const oid = route.params.id;
   console.log(oid);
 
-  useEffect(() => getData(), []);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      getData();
+    });
+    return unsubscribe;
+  }, [navigation]);
 
   const getData = () => {
     try {
@@ -60,7 +65,7 @@ const OwnerPropView = ({props, navigation, route}) => {
 
   const ItemView = ({item}) => {
     const img = item.images.url;
-    
+
     const editPlace = id => {
       try {
         fetch(`${configdata.baseURL}/properties/updateproperty/${a}`, {
@@ -79,25 +84,25 @@ const OwnerPropView = ({props, navigation, route}) => {
       } catch (error) {}
     };
 
-    const conformDelete =()=>{
-      setVisible(true)
-      return(
+    const conformDelete = () => {
+      setVisible(true);
+      return (
         <Portal>
-        <Dialog visible={visible} onDismiss={hideDialog}>
-          <Dialog.Title>Conform Delete</Dialog.Title>
-          <Dialog.Actions>
-            <Button
-              onPress={() => {
-                setConform(true)
-                hideDialog();
-              }}>
-              Ok
-            </Button>
-          </Dialog.Actions>
-        </Dialog>
-      </Portal>
-      )
-    }
+          <Dialog visible={visible} onDismiss={hideDialog}>
+            <Dialog.Title>Conform Delete</Dialog.Title>
+            <Dialog.Actions>
+              <Button
+                onPress={() => {
+                  setConform(true);
+                  hideDialog();
+                }}>
+                Ok
+              </Button>
+            </Dialog.Actions>
+          </Dialog>
+        </Portal>
+      );
+    };
 
     const deletePlace = id => {
       const a = id;
@@ -300,7 +305,7 @@ const styles = StyleSheet.create({
   },
   btntxt: {
     fontSize: 25,
-    color:'#000',
+    color: '#000',
   },
 });
 export default {component: OwnerPropView, name: 'OwnerPropView'};

@@ -24,7 +24,7 @@ import DropDownPicker from 'react-native-dropdown-picker';
 import Loader from '../../components/Loader';
 const {width: widthScreen, height: heightScreen} = Dimensions.get('screen');
 
-const AddPlace = ({route}) => {
+const AddPlace = ({route, navigation}) => {
   const oid = route.params.oid;
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
@@ -138,9 +138,13 @@ const AddPlace = ({route}) => {
       });
   };
   useEffect(() => {
-    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-    LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
-  }, []);
+    const unsubscribe = navigation.addListener('focus', () => {
+      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+      LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
+    });
+    return unsubscribe;
+  }, [navigation]);
+
   return (
     <>
       <Loader loading={loading} />
@@ -340,8 +344,8 @@ const styles = StyleSheet.create({
     margin: 10,
     backgroundColor: '#00f',
   },
-  title:{
+  title: {
     fontFamily: 'Gilroy-Heavy',
-    fontSize: 28
-  }
+    fontSize: 28,
+  },
 });

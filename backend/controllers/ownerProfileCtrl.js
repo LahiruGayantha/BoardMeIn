@@ -2,104 +2,101 @@ const Owner = require('../models/Owner');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const {jwtSecret, jwtExpire} = require('../config/keys');
-const express = require("express");
+const express = require('express');
 
 exports.getOwnerById = async (req, res) => {
   await Owner.findById({_id: req.params.id}, (err, owner) => {
     if (err) {
-      return res.status(400).json({success: false, error: err});
+      return res.status(400).json({error: err});
     }
 
-    if (!notice) {
-      return res.status(404).json({success: false, error: `User not found`});
-    }
-    return res.status(200).json({success: true, data: owner});
+    return res.status(200).json({data: owner});
   }).catch(err => console.log(err));
 };
 
-exports.updateOwnerPic = async (req, res) =>{
+exports.updateOwnerPic = async (req, res) => {
   await Owner.findByIdAndUpdate(
-    req.user._id,
-    { $set: { pic: req.body.pic } },
-    { new: true }
+    {_id: req.params.id},
+    {$set: {pic: req.body.pic}},
+    {new: true},
   ).exec((err, result) => {
     if (err) {
-      return res.status(422).json({ error: err });
+      return res.status(422).json({error: err});
     } else {
       res.json(result);
     }
   });
-}
+};
 
-exports.updateOwnerUName = async (req, res) =>{
-  const { firstname, lastname } = req.body;
+exports.updateOwnerUName = async (req, res) => {
+  const {firstname, lastname} = req.body;
 
   if (!firstname && !lastname) {
     return res.status(422).json();
   } else {
     Owner.findByIdAndUpdate(
-      req.user._id,
-      { $set: { firstname: req.body.firstname, lastname: req.body.lastname } },
+      {_id: req.params.id},
+      {$set: {firstname: req.body.firstname, lastname: req.body.lastname}},
 
       {
         new: true,
-      }
+      },
     ).exec((err, result) => {
       if (err) {
-        return res.status(422).json({ error: err });
+        return res.status(422).json({error: err});
       } else {
         res.json(result);
       }
     });
   }
-}
+};
 
-exports.updateOwnerBio = async (req, res)=>{
-  const { bio } = req.body;
+exports.updateOwnerBio = async (req, res) => {
+  const {bio} = req.body;
 
   if (!bio) {
     return res.status(422).json();
   }
   Owner.findByIdAndUpdate(
-    req.user._id,
-    { $set: { bio: req.body.bio } },
+    {_id: req.params.id},
+    {$set: {bio: req.body.bio}},
 
     {
       new: true,
-    }
+    },
   ).exec((err, result) => {
     if (err) {
-      return res.status(422).json({ error: err });
+      return res.status(422).json({error: err});
     } else {
       res.json(result);
     }
   });
-}
+};
 
-exports.updateOwnerLocation = async (req, res)=>{
-  const { location } = req.body;
+exports.updateOwnerLocation = async (req, res) => {
+  const {location} = req.body;
 
   if (!location) {
     return res.status(422).json();
   }
   Owner.findByIdAndUpdate(
-    req.user._id,
-    { $set: { location: req.body.location } },
+    {_id: req.params.id},
+    {$set: {location: req.body.location}},
 
     {
       new: true,
-    }
+    },
   ).exec((err, result) => {
     if (err) {
-      return res.status(422).json({ error: err });
+      return res.status(422).json({error: err});
     } else {
       res.json(result);
     }
   });
-}
+};
 
-exports.updatePassword = async (req,res)=>{
-const { password, password2 } = req.body;
+exports.updatePassword = async (req, res) => {
+  const {password, password2} = req.body;
 
   if (!equals(password, password2)) {
     return res.status(422).json();
@@ -112,17 +109,17 @@ const { password, password2 } = req.body;
   const salt = await bcrypt.genSalt(10);
   newPassword.password = await bcrypt.hash(password, salt);
   await Owner.findByIdAndUpdate(
-    req.user._id,
-    { $set: { password: newPassword.password } },
+    {_id: req.params.id},
+    {$set: {password: newPassword.password}},
 
     {
       new: true,
-    }
+    },
   ).exec((err, result) => {
     if (err) {
-      return res.status(422).json({ error: err });
+      return res.status(422).json({error: err});
     } else {
       res.json(result);
     }
   });
-}
+};

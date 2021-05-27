@@ -35,8 +35,10 @@ const Profile = ({
             <Text style={styles.name}>{username}</Text>
             <Text style={styles.info}>{usermail}</Text>
             <Text style={styles.description}>{owner}</Text>
-            <Text style={styles.description}>{bio}</Text>
-            <Text style={styles.description}>{location}</Text>
+            <Text style={styles.description}>
+              {location != '' ? location : 'location'}
+            </Text>
+            <Text style={styles.description}>{bio != '' ? bio : 'bio'}</Text>
             <TouchableOpacity onPress={nav}>
               <Icon name="account-edit" size={30} color="#323232" />
             </TouchableOpacity>
@@ -53,7 +55,9 @@ const Profile = ({
           <Icon name={iname} size={30} color="#fff" /> {btn2}
         </Text>
       </TouchableOpacity>
-      <TouchableOpacity style={styles.buttonContainer} onPress={onPress3}>
+      <TouchableOpacity
+        style={styles.buttonContainer}
+        onPress={onPress3}>
         <Text style={styles.btntxt}>
           <Icon name="file-document-edit" size={30} color="#fff" /> Send Inquery
         </Text>

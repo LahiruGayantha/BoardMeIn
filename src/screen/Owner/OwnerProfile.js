@@ -26,28 +26,36 @@ const OwnerProfile = ({navigation}) => {
 
   const fetchData = async () => {
     setLoading(true);
-    try {
-      const jsonValue = await AsyncStorage.getItem('@ouser');
-      //const result = JSON.parse(jsonValue);
-      const id = jsonValue
-      console.log(id);
-      fetch(`${configdata.baseURL}/auth/ownerlogin`)
-      setLoading(false);
-      setOUser({
-        ...ouser,
-        firstname: result.firstname,
-        lastname: result.lastname,
-        email: result.email,
-        _id: result._id,
-        pic: result.pic,
-        location: result.location,
-        bio: result.bio,
+    const jsonValue = await AsyncStorage.getItem('@ouser');
+    const id = JSON.parse(jsonValue);
+    fetch(`${configdata.baseURL}/ownerprofile/${id}`)
+      .then(response => response.json())
+      .then(responseJson => {
+        setLoading(false);
+        const data = responseJson.data;
+        console.log(data.email);
+        setOUser({
+          ...ouser,
+          firstname: data.firstname,
+          lastname: data.lastname,
+          email: data.email,
+          _id: data._id,
+          pic: data.pic,
+          location: data.location,
+          bio: data.bio,
+        });
+      })
+      .catch(error => {
+        setLoading(false);
+        console.error(error);
       });
-    } catch (error) {
-      console.log(error);
-    }
   };
-  useEffect(() => fetchData(), []);
+  useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      fetchData();
+    });
+    return unsubscribe;
+  }, [navigation]);
   return (
     <>
       <Loader loading={loading} />
@@ -58,12 +66,28 @@ const OwnerProfile = ({navigation}) => {
             usermail={ouser.email}
             owner="Owner"
             btn2="View my rent places"
-            onPress1={() => navigation.navigate('ChatA',{screen: 'Chat'})}
+            onPress1={() => navigation.navigate('ChatA', {screen: 'Chat'})}
             onPress2={() => viewProp()}
             img={ouser.pic}
             bio={ouser.bio}
             location={ouser.location}
-            nav={() => navigation.navigate('Owner',{screen: 'OEditProfile'})}
+            nav={() =>
+              navigation.navigate('Owner', {
+                screen: 'OEditProfile',
+                params: {
+                  firstname: ouser.firstname,
+                  lastname: ouser.lastname,
+                  email: ouser.email,
+                  _id: ouser._id,
+                  pic: ouser.pic,
+                  location: ouser.location,
+                  bio: ouser.bio,
+                },
+              })
+            }
+            onPress3={() =>
+              navigation.navigate('Owner', {screen: 'Inquiry'})
+            }
             iname="home-city"
           />
         </View>
