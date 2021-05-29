@@ -30,6 +30,7 @@ const AddPlace = ({route, navigation}) => {
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
   const [content, setContent] = useState('');
+  const [title, setTitle] = useState('');
   const [filePath, setFilePath] = useState({});
   const [imageSource, setImageSource] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -65,14 +66,14 @@ const AddPlace = ({route, navigation}) => {
       } else {
         let source = {uri: response.uri};
         // ADD THIS
-        setImageSource(source.uri);
+        setImageSource(response);
+        //console.log(response);
       }
     });
   }
 
   const createFormData = imageSource => {
     const data = new FormData();
-
     data.append('images', {
       name: imageSource.fileName,
       type: imageSource.type,
@@ -84,26 +85,44 @@ const AddPlace = ({route, navigation}) => {
     return data;
   };
 
-  const uploadImage = file => {
-    fetch(`${configdata.baseURL}/upload`, {
-      method: 'POST',
-      body: createFormData(file),
-    })
-      .then(response => response.json())
-      .then(response => {
-        console.log('upload succes', response);
-        setFilePath(response);
+  const uploadImage = imageSource => {
+    try {
+      fetch(`${configdata.baseURL}/upload`, {
+        method: 'POST',
+        body: createFormData(imageSource),
       })
-      .catch(error => {
-        console.log('upload error', error);
-        alert('Upload failed!');
-      });
+        .then(response => response.json())
+        .then(response => {
+          console.log('upload succes', response);
+          setFilePath(response);
+        })
+        .catch(error => {
+          console.log('upload error', error);
+          alert('Upload failed!');
+        });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const uploadData = imageSource => {
     uploadImage(imageSource);
+    if (!imageSource) {
+      Alert.alert('Image is required');
+      return;
+    }
+    if (
+      isEmpty(location) ||
+      isEmpty(description) ||
+      isEmpty(price) ||
+      isEmpty(title) ||
+      isEmpty(content) ||
+      value === null
+    ) {
+      Alert.alert('Please fill all fields');
+      return;
+    }
     setLoading(true);
-
     fetch(`${configdata.baseURL}/properties/addproperty`, {
       method: 'POST',
       mode: 'cors',
@@ -119,7 +138,7 @@ const AddPlace = ({route, navigation}) => {
         category: value,
         images: filePath,
         owner_id: oid,
-        product_id: filePath.public_id,
+        title: title,
       }),
     })
       .then(response => response.json())
@@ -127,16 +146,19 @@ const AddPlace = ({route, navigation}) => {
         setLoading(false);
         console.log(responseJson.msg);
         Alert.alert(responseJson.msg);
-        setImageSource(null);
-        setLocation('');
-        setContent('');
-        setPrice('');
+        setTitle(null);
+        setLocation(null);
+        setPrice(null);
+        setContent(null);
+        setValue(null);
+        setLoading(false);
       })
       .catch(error => {
         setLoading(false);
         console.error(error);
       });
   };
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
@@ -160,7 +182,7 @@ const AddPlace = ({route, navigation}) => {
               />
             ) : (
               <Image
-                source={{uri: imageSource}}
+                source={{uri: imageSource.uri}}
                 style={styles.imageBox}
                 resizeMode="contain"
               />
@@ -176,12 +198,24 @@ const AddPlace = ({route, navigation}) => {
           </View>
           <KeyboardAvoidingView>
             <View style={styles.form}>
+              <Text style={styles.inputLabel}>Title</Text>
+              <TextInput
+                style={styles.input}
+                onChangeText={title => setTitle(title)}
+                value={title}
+                autoCapitalize="none"
+                placeholderTextColor="#BFC9CA"
+                placeholder="This may highlight your place"
+              />
+              <View style={{marginTop: heightScreen * 0.011}} />
               <Text style={styles.inputLabel}>Location</Text>
               <TextInput
                 style={styles.input}
                 onChangeText={location => setLocation(location)}
+                value={location}
                 autoCapitalize="none"
                 placeholderTextColor="#BFC9CA"
+                placeholder="Area of the place"
               />
               <View style={{marginTop: heightScreen * 0.011}} />
               <Text style={styles.inputLabel}>Address</Text>
@@ -189,7 +223,9 @@ const AddPlace = ({route, navigation}) => {
                 style={styles.input}
                 onChangeText={content => setContent(content)}
                 autoCapitalize="none"
+                value={content}
                 placeholderTextColor="#BFC9CA"
+                placeholder="Address of the place"
               />
               <View style={{marginTop: heightScreen * 0.011}} />
               <Text style={styles.inputLabel}>Description</Text>
@@ -200,6 +236,8 @@ const AddPlace = ({route, navigation}) => {
                 onChangeText={description => setDescription(description)}
                 autoCapitalize="none"
                 placeholderTextColor="#BFC9CA"
+                placeholder="Features or other details"
+                value={description}
               />
               <View style={{marginTop: heightScreen * 0.011}} />
               <Text style={styles.inputLabel}>Price</Text>
@@ -208,6 +246,7 @@ const AddPlace = ({route, navigation}) => {
                 onChangeText={price => setPrice(price)}
                 autoCapitalize="none"
                 placeholderTextColor="#BFC9CA"
+                value={price}
               />
               <View style={{marginTop: heightScreen * 0.011}} />
               <Text style={styles.inputLabel}>Category</Text>
@@ -232,7 +271,7 @@ const AddPlace = ({route, navigation}) => {
                 <View style={{marginTop: heightScreen * 0.11}} />
                 <TouchableOpacity
                   style={styles.uploadBtn}
-                  onPress={() => uploadData(filePath)}>
+                  onPress={() => uploadData(imageSource)}>
                   <Text style={{color: '#fff'}}>Upload</Text>
                 </TouchableOpacity>
               </View>

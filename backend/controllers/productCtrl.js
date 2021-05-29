@@ -121,6 +121,7 @@ exports.getProductsByOId = async (req, res) => {
     return res.status(200).json({success: true, data: products});
   }).catch(err => console.log(err));
 };
+
 exports.getProducts = async (req, res) => {
   await Products.find({}, (err, products) => {
     if (err) {
@@ -136,7 +137,7 @@ exports.getProducts = async (req, res) => {
 };
 
 exports.getSinglerooms = async (req, res) => {
-  await Products.find({category: {$eq: 'SingleRoom'}}, (err, products) => {
+  await Products.find({category: {$eq: 'Single Room'}}, (err, products) => {
     if (err) {
       return res.status(400).json({error: err});
     }
@@ -148,7 +149,7 @@ exports.getSinglerooms = async (req, res) => {
 };
 
 exports.getSharedrooms = async (req, res) => {
-  await Products.find({category: {$eq: 'SharedRoom'}}, (err, products) => {
+  await Products.find({category: {$eq: 'Shared Room'}}, (err, products) => {
     if (err) {
       return res.status(400).json({error: err});
     }
@@ -177,7 +178,7 @@ exports.getHouses = async (req, res) => {
 
 exports.getAnnexs = async (req, res) => {
   await Products.find(
-    {category: {$nin: ['SharedRoom', 'SingleRoom', 'House']}},
+    {category: {$nin: ['Shared Room', 'Single Room', 'House']}},
     (err, products) => {
       if (err) {
         return res.status(400).json({error: err});
@@ -194,7 +195,7 @@ exports.getAnnexs = async (req, res) => {
 
 exports.getSinRoomCount = async (req, res) => {
   await Products.count(
-    {category: {$eq: 'SingleRoom'}},
+    {category: {$eq: 'Single Room'}},
     function (err, sinrcount) {
       if (err) {
         return res.status(400).json({error: err});
@@ -206,7 +207,7 @@ exports.getSinRoomCount = async (req, res) => {
 };
 
 exports.getShrRoomCount = async (req, res) => {
-  await Products.count({category: 'SharedRoom'}, function (err, shrrcount) {
+  await Products.count({category: 'Shared Room'}, function (err, shrrcount) {
     if (err) {
       return res.status(400).json({error: err});
     } else {
@@ -227,7 +228,7 @@ exports.getHouseCount = async (req, res) => {
 
 exports.getAnxCount = async (req, res) => {
   await Products.count(
-    {category: {$nin: ['SharedRoom', 'SingleRoom', 'House']}},
+    {category: {$nin: ['Shared Room', 'Single Room', 'House']}},
     function (err, annexcount) {
       if (err) {
         return res.status(400).json({error: err});

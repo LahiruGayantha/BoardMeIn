@@ -44,7 +44,7 @@ const SingleRoomDashboard = ({props, navigation}) => {
         console.error(error);
         setLoading(false);
       });
-
+    setLoading(false);
     return function cleanup() {
       abortController.abort();
     };
@@ -74,6 +74,7 @@ const SingleRoomDashboard = ({props, navigation}) => {
         <Image style={styles.cardImage} source={{uri: img}} />
         <View style={styles.cardHeader}>
           <View>
+            <Text style={styles.name}>{item.title}</Text>
             <Text style={styles.description}>{item.location}</Text>
             <View style={styles.timeContainer}>
               <Text style={styles.time}>
@@ -128,7 +129,7 @@ const SingleRoomDashboard = ({props, navigation}) => {
     });
   };
 
-  const book = (item) => {
+  const book = item => {
     navigation.navigate('Property', {
       screen: 'Book',
       params: {
@@ -197,6 +198,11 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 1,
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  name: {
+    fontSize: 20,
+    color: '#696969',
+    fontWeight: 'bold',
   },
   cardContent: {
     paddingVertical: 12.5,

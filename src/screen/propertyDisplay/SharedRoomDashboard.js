@@ -71,6 +71,7 @@ const SharedRoomDashboard = ({props, navigation}) => {
         <Image style={styles.cardImage} source={{uri: img}} />
         <View style={styles.cardHeader}>
           <View>
+          <Text style={styles.name}>{item.title}</Text>
             <Text style={styles.description}>{item.location}</Text>
             <View style={styles.timeContainer}>
               <Text style={styles.time}>
@@ -186,6 +187,11 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginLeft: 1,
     backgroundColor: 'white',
+  },
+  name: {
+    fontSize: 20,
+    color: '#696969',
+    fontWeight: 'bold',
   },
   cardHeader: {
     paddingVertical: 17,

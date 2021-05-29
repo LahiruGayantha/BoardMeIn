@@ -12,10 +12,14 @@ cloudinary.config({
 router.post('/upload', upload.single('images'), async (req, res) => {
   try {
     // Upload image to cloudinary
-    cloudinary.uploader.upload(req.file.path, {folder: "test"},async (err, result) => {
-      const myJson = ({public_id: result.public_id, url: result.secure_url})
-      res.json(myJson);
-    });   
+    cloudinary.uploader.upload(
+      req.file.path,
+      {folder: 'test'},
+      async (err, result) => {
+        const myJson = {public_id: result.public_id, url: result.secure_url};
+        res.json(myJson);
+      },
+    );
   } catch (err) {
     console.log(err);
   }

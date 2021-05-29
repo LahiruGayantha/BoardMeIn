@@ -50,7 +50,7 @@ const AnnexDashboard = ({props, navigation}) => {
     };
   };
 
-  const searchFilterFunction = (text) => {
+  const searchFilterFunction = text => {
     // Check if searched text is not blank
     if (text) {
       // Inserted text is not blank
@@ -61,7 +61,8 @@ const AnnexDashboard = ({props, navigation}) => {
           ? item.location.toUpperCase()
           : ''.toUpperCase();
         const textData = text.toUpperCase();
-        return itemData.indexOf(textData) > -1;c
+        return itemData.indexOf(textData) > -1;
+        c;
       });
       setFilterdata(newData);
       setSearch(text);
@@ -74,13 +75,14 @@ const AnnexDashboard = ({props, navigation}) => {
   };
 
   const ItemView = ({item}) => {
-    const img = item.images.url
+    const img = item.images.url;
     return (
       // Flat List Item
       <View style={styles.card}>
-        <Image style={styles.cardImage} source={{uri: img}}/>
+        <Image style={styles.cardImage} source={{uri: img}} />
         <View style={styles.cardHeader}>
           <View>
+            <Text style={styles.name}>{item.title}</Text>
             <Text style={styles.description}>{item.location}</Text>
             <View style={styles.timeContainer}>
               <Text style={styles.time}>
@@ -135,7 +137,7 @@ const AnnexDashboard = ({props, navigation}) => {
     });
   };
 
-  const book = (item) => {
+  const book = item => {
     navigation.navigate('Property', {
       screen: 'Book',
       params: {
@@ -156,9 +158,9 @@ const AnnexDashboard = ({props, navigation}) => {
       <View style={styles.container}>
         <SearchBar
           round
-          searchIcon={{ size: 24 }}
-          onChangeText={(text) => searchFilterFunction(text)}
-          onClear={(text) => searchFilterFunction('')}
+          searchIcon={{size: 24}}
+          onChangeText={text => searchFilterFunction(text)}
+          onClear={text => searchFilterFunction('')}
           placeholder="Find by location"
           value={search}
         />
@@ -197,6 +199,11 @@ const styles = StyleSheet.create({
     marginLeft: 1,
     backgroundColor: 'white',
   },
+  name: {
+    fontSize: 20,
+    color: '#696969',
+    fontWeight: 'bold',
+  },
   cardHeader: {
     paddingVertical: 17,
     paddingHorizontal: 16,
@@ -219,7 +226,7 @@ const styles = StyleSheet.create({
     borderBottomRightRadius: 1,
     backgroundColor: '#EEEEEE',
   },
-   cardImage: {
+  cardImage: {
     flex: 1,
     height: 200,
     width: null,
