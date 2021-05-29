@@ -150,17 +150,6 @@ const DisplayCategory = ({navigation}) => {
               </View>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => showAnnexes()}>
-            <View style={styles.card}>
-              <Image style={styles.cardImage} source={annex} />
-              <View style={styles.cardContent}>
-                <View>
-                  <Text style={styles.title}>Annex</Text>
-                  <Text style={styles.time}>{anxcount}</Text>
-                </View>
-              </View>
-            </View>
-          </TouchableOpacity>
           <TouchableOpacity onPress={() => showHouses()}>
             <View style={styles.card}>
               <Image style={styles.cardImage} source={Apartments} />
@@ -168,6 +157,17 @@ const DisplayCategory = ({navigation}) => {
                 <View>
                   <Text style={styles.title}>Rent Houses</Text>
                   <Text style={styles.time}>{hmcount}</Text>
+                </View>
+              </View>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => showAnnexes()}>
+            <View style={styles.card}>
+              <Image style={styles.cardImage} source={annex} />
+              <View style={styles.cardContent}>
+                <View>
+                  <Text style={styles.title}>Other rent places</Text>
+                  <Text style={styles.time}>{anxcount}</Text>
                 </View>
               </View>
             </View>

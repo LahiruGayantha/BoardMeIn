@@ -126,12 +126,12 @@ const AnnexDashboard = ({props, navigation}) => {
   const moreDetail = item => {
     navigation.navigate('Moredetail', {
       pid: item._id,
-      type: item.categoryType,
+      type: item.category,
       price: item.price,
       location: item.location,
       description: item.description,
       pimg: item.images.url,
-      address: item.address,
+      content: item.content,
     });
   };
 
@@ -140,12 +140,12 @@ const AnnexDashboard = ({props, navigation}) => {
       screen: 'Book',
       params: {
         pid: item._id,
-        type: item.categoryType,
+        type: item.category,
         price: item.price,
         location: item.location,
         description: item.description,
         pimg: item.images.url,
-        address: item.address,
+        content: item.content,
         oid: item.owner_id,
       },
     });

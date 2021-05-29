@@ -22,7 +22,7 @@ const Moredetail = ({route, navigation}) => {
   const location = route.params.location;
   const discription = route.params.description;
   const img = route.params.pimg;
-  const address = route.params.address;
+  const content = route.params.content;
   const [d, setD] = useState([]);
 
   const setProduct = () => {
@@ -49,9 +49,9 @@ const Moredetail = ({route, navigation}) => {
         oid: d.owner_id,
         img: d.images.url,
         price: d.price,
-        type: d.categoryType,
+        type: d.category,
         location: d.location,
-        address: d.address,
+        content: d.content,
       },
     });
   };
@@ -69,7 +69,7 @@ const Moredetail = ({route, navigation}) => {
             {price}
           </Text>
           <Text style={styles.description}>{discription}</Text>
-          <Text style={styles.description}>{address}</Text>
+          <Text style={styles.description}>{content}</Text>
         </View>
         <View style={styles.starContainer}>
           <Stars

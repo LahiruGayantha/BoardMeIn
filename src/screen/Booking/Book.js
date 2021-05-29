@@ -23,7 +23,7 @@ const Book = ({route, navigation}) => {
   const price = route.params.price;
   const type = route.params.type;
   const location = route.params.location;
-  const address = route.params.address;
+  const content = route.params.content;
 
   const getDetails = () => {
     setLoading(true);
@@ -74,7 +74,7 @@ const Book = ({route, navigation}) => {
         <View style={styles.row}>
           <Text style={styles.subtitle}>Place address</Text>
           <View style={styles.valuecontainer}>
-            <Text style={styles.value}>{address}</Text>
+            <Text style={styles.value}>{content}</Text>
           </View>
         </View>
         <View style={styles.row}>

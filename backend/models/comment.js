@@ -34,7 +34,7 @@ const commentSchma = new Schema(
         gId: {
           type: mongoose.Schema.Types.ObjectId,
           ref: 'Guest',
-          require: true,
+          //require: true,
         },
         pRating: {type: Number, default: 0},
         oRating: {type: Number, default: 0},

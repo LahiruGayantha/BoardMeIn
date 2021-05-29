@@ -2,9 +2,6 @@ const mongoose = require('mongoose');
 
 const productSchema = new mongoose.Schema(
   {
-    product_id: {
-      type: String,
-    },
     title: {
       type: String,
     },
@@ -20,19 +17,15 @@ const productSchema = new mongoose.Schema(
     content: {
       type: String,
     },
+    category: {
+      type: String,
+    },
     images: {
       type: Object,
       required: true
     },
     location:{
         type:String
-    },
-    categoryType: {
-      type: String,
-      enum: ['SingleRoom', 'SharedRoom', 'Home', 'Annex'],
-    },
-    address: {
-      type: String,
     },
     checked: {
       type: Boolean,

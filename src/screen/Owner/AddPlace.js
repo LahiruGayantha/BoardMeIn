@@ -29,7 +29,7 @@ const AddPlace = ({route, navigation}) => {
   const [location, setLocation] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
-  const [address, setAddress] = useState('');
+  const [content, setContent] = useState('');
   const [filePath, setFilePath] = useState({});
   const [imageSource, setImageSource] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -113,7 +113,7 @@ const AddPlace = ({route, navigation}) => {
       },
       body: JSON.stringify({
         location: location,
-        address: address,
+        content: content,
         price: price,
         description: description,
         category: value,
@@ -129,7 +129,7 @@ const AddPlace = ({route, navigation}) => {
         Alert.alert(responseJson.msg);
         setImageSource(null);
         setLocation('');
-        setAddress('');
+        setContent('');
         setPrice('');
       })
       .catch(error => {
@@ -187,7 +187,7 @@ const AddPlace = ({route, navigation}) => {
               <Text style={styles.inputLabel}>Address</Text>
               <TextInput
                 style={styles.input}
-                onChangeText={address => setAddress(address)}
+                onChangeText={content => setContent(content)}
                 autoCapitalize="none"
                 placeholderTextColor="#BFC9CA"
               />

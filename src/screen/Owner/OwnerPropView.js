@@ -128,7 +128,7 @@ const OwnerPropView = ({props, navigation, route}) => {
         <Image style={styles.cardImage} source={{uri: img}} />
         <View style={styles.cardHeader}>
           <View>
-            <Text style={styles.description}>{item.address}</Text>
+            <Text style={styles.description}>{item.content}</Text>
             <View style={styles.timeContainer}>
               <Text style={styles.time}>
                 {'Rs.'}

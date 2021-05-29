@@ -68,7 +68,7 @@ exports.addComment = async (req, res, next) => {
     console.log("rat", pRatingKey, ratingValue, pRate);
     await Comment.findByIdAndUpdate(pId, {
       $set: {
-        name: "check updatessss",
+        name: "user",
         rating: newRate,
       },
       $inc: pRate,
@@ -138,3 +138,25 @@ exports.addReply = async (req, res, next) => {
   }
   
 };
+
+exports.getCommentbyPid = async (req, res) => {
+  try {
+    Comment.findById({_id: req.params.id}, function (err, comment) {
+      if (err) {
+        res.status(400).json({
+          status: false,
+          data: "Invalid search!",
+        });
+      }
+      res.status(200).json({
+        status: true,
+        data: comment,
+      });
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: false,
+      message: err.message,
+    });
+  }
+}
