@@ -7,11 +7,11 @@ import {
   Image,
   Alert,
   FlatList,
+  Button,
   SafeAreaView,
   ActivityIndicator,
   Dimensions,
 } from 'react-native';
-import {Button, Dialog, Portal} from 'react-native-paper';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -38,11 +38,11 @@ const OwnerPropView = ({props, navigation, route}) => {
   }, [navigation]);
 
   const getData = () => {
+    setLoading(true);
     try {
       const abortController = new AbortController();
       const signal = AbortController.signal;
 
-      setLoading(true);
       fetch(`${configdata.baseURL}/properties/ownerproperty/${oid}`, {
         signal: signal,
       })
@@ -84,24 +84,20 @@ const OwnerPropView = ({props, navigation, route}) => {
       } catch (error) {}
     };
 
-    const conformDelete = () => {
-      setVisible(true);
-      return (
-        <Portal>
-          <Dialog visible={visible} onDismiss={hideDialog}>
-            <Dialog.Title>Conform Delete</Dialog.Title>
-            <Dialog.Actions>
-              <Button
-                onPress={() => {
-                  setConform(true);
-                  hideDialog();
-                }}>
-                Ok
-              </Button>
-            </Dialog.Actions>
-          </Dialog>
-        </Portal>
-      );
+    const conformDelete = (id) => {
+      Alert.alert(
+      "BoardMeIn",
+      "Are you sure you want to delete",
+      [
+        {
+          text: "No",
+          onPress: () => console.log("Cancel Delete"),
+          style: "cancel"
+        },
+        { text: "Yes", onPress: () => deletePlace(id) }
+      ],
+      { cancelable: false }
+    );
     };
 
     const deletePlace = id => {
@@ -115,6 +111,7 @@ const OwnerPropView = ({props, navigation, route}) => {
             console.log('responseJson.success');
             if (responseJson.success) {
               Alert.alert('Deleted data successfully.');
+              getData();
             }
           })
           .catch(error => {
@@ -122,6 +119,7 @@ const OwnerPropView = ({props, navigation, route}) => {
           });
       } catch (error) {}
     };
+
     return (
       // Flat List Item
       <View style={styles.card}>

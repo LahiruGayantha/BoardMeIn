@@ -67,11 +67,11 @@ const AddPlace = ({route, navigation}) => {
         let source = {uri: response.uri};
         // ADD THIS
         setImageSource(response);
+        uploadImage(response);
         //console.log(response);
       }
     });
   }
-
   const createFormData = imageSource => {
     const data = new FormData();
     data.append('images', {
@@ -86,31 +86,22 @@ const AddPlace = ({route, navigation}) => {
   };
 
   const uploadImage = imageSource => {
-    try {
-      fetch(`${configdata.baseURL}/upload`, {
-        method: 'POST',
-        body: createFormData(imageSource),
+    fetch(`${configdata.baseURL}/upload`, {
+      method: 'POST',
+      body: createFormData(imageSource),
+    })
+      .then(response => response.json())
+      .then(response => {
+        console.log('upload succes', response);
+        setFilePath(response);
       })
-        .then(response => response.json())
-        .then(response => {
-          console.log('upload succes', response);
-          setFilePath(response);
-        })
-        .catch(error => {
-          console.log('upload error', error);
-          alert('Upload failed!');
-        });
-    } catch (err) {
-      console.log(err);
-    }
+      .catch(error => {
+        console.log('upload error', error);
+        alert('Upload failed!');
+      });
   };
 
   const uploadData = imageSource => {
-    uploadImage(imageSource);
-    if (!imageSource) {
-      Alert.alert('Image is required');
-      return;
-    }
     if (
       isEmpty(location) ||
       isEmpty(description) ||
@@ -123,6 +114,7 @@ const AddPlace = ({route, navigation}) => {
       return;
     }
     setLoading(true);
+
     fetch(`${configdata.baseURL}/properties/addproperty`, {
       method: 'POST',
       mode: 'cors',
@@ -160,12 +152,9 @@ const AddPlace = ({route, navigation}) => {
   };
 
   useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
-      LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
-    });
-    return unsubscribe;
-  }, [navigation]);
+    LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
+    LogBox.ignoreLogs(['Possible Unhandled Promise Rejection']);
+  }, []);
 
   return (
     <>
